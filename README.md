@@ -125,3 +125,4 @@ The goal is to present not just tools, but the exact systems and decisions behin
 - GitHub: **github.com/RosenthalMark**  
 - Portfolio: coming soon  
 - LinkedIn: www.linkedin.com/in/markrosenthalqa
+- Email: buildghost.dev@gmail.com
