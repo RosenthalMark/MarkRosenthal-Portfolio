@@ -124,4 +124,4 @@ The goal is to present not just tools, but the exact systems and decisions behin
 
 - GitHub: **github.com/RosenthalMark**  
 - Portfolio: coming soon  
-- LinkedIn: available on request  
+- LinkedIn: www.linkedin.com/in/markrosenthalqa
