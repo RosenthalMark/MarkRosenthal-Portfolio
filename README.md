@@ -1,72 +1,127 @@
-# Hi, I'm Mark — QA Engineer & Automation Architect
+# Hi, I am Mark Rosenthal
 
-I build automation systems that help teams ship faster without sacrificing quality.
-
-With 9+ years of experience designing and scaling QA architectures across web, mobile, and API platforms, I specialize in Cypress, Playwright, and CI/CD automation with a focus on reliability, maintainability, and measurable business impact. I am deeply passionate about bringing stability to fast-moving development environments through modern, data-driven QA practices.
+QA Automation Architect with 9 years of experience building fast, stable, and scalable test systems across web, mobile, and API platforms. I design automation that removes release risk and accelerates engineering teams.
 
 ---
 
 ## What I Do
 
-- Build complete QA ecosystems that are automated, documented, and fully CI/CD-integrated  
-- Engineer end-to-end test frameworks for UI, API, and mobile platforms  
-- Integrate QA into release pipelines with versioning, quality gates, and traceability  
-- Mentor engineers and teams to scale quality with confidence and autonomy  
+- Build complete QA ecosystems that are automated, documented, and CI CD integrated  
+- Engineer end to end test frameworks for UI, mobile, and API platforms  
+- Design quality gates and release validation systems for high velocity teams  
+- Lead shift left initiatives and embed quality earlier in development  
+- Build internal AI driven tooling for faster and more stable automation  
+
+---
+
+## Automation and Tooling
+
+I design and maintain large scale automation systems using modern, battle tested tooling across the full testing pyramid.
+
+**UI and Mobile Automation**
+- Cypress  
+- Playwright  
+- Appium  
+- Selenium  
+
+**API and Integration Testing**
+- Postman  
+- Runscope  
+- Custom Node and Python harnesses  
+
+**Load and Performance Testing**
+- K6  
+
+**Supporting Tooling**
+- GitHub Actions  
+- Jenkins  
+- Docker based preview environments  
+
+These tools are used together to create stable, versioned, and self validating automation pipelines that run continuously in CI.
+
+---
+
+## Test Suite Architecture and Quality Systems
+
+I specialize in building large scale, production grade test suites that reflect real user behavior and protect critical revenue paths.
+
+- Designed and maintained test suites with 300 plus automated checks per platform  
+- Built full critical flow coverage across authentication, payments, subscriptions, and content delivery  
+- Created layered smoke, regression, and release certification suites  
+- Implemented deterministic test ID strategies to eliminate selector flakiness  
+- Built rollup reporting for engineering, product, and release management  
+
+**Test Management and Reporting Platforms**
+- TestRail  
+- Xray  
+- Runscope  
+- Custom CI reporting dashboards  
+
+These systems are designed to provide fast signal, traceability to requirements, and confident release decisions.
+
+---
+
+## Engineering Leadership and Teaching
+
+I operate as both a hands on architect and an engineering leader focused on long term quality culture.
+
+- Built a full Cypress curriculum from scratch used to onboard and level up engineers  
+- Led QA Guilds for over 5 years across multiple teams  
+- Led Shift Left Guild initiatives for over 5 years focused on early validation and developer owned quality  
+- Mentored engineers in test design, CI strategy, and framework architecture  
+- Partnered with product and engineering leadership on release risk strategy  
+
+My leadership focus is building systems and people that scale together.
 
 ---
 
 ## Core Skills
 
-**Automation & Testing**  
-Cypress, Playwright, Appium, Selenium  
-
-**API & Backend Validation**  
-Postman, REST, GraphQL, SQL  
-
-**CI/CD & DevOps**  
-GitHub Actions, Jenkins, Docker, Kubernetes, AWS, GCP  
-
-**Quality Strategy**  
-Shift-left testing, release governance, observability, risk-based testing  
-
-**AI & Innovation**  
-DOM mapping, auto-tagging, AI-assisted test generation  
+**Automation:** Cypress, Playwright, Appium, Selenium, K6, Postman  
+**Languages:** JavaScript, TypeScript, Python  
+**CI CD:** GitHub Actions, Jenkins, CircleCI  
+**Cloud:** AWS, GCP, containerized preview environments  
+**AI Tooling:** BuildGhost, Ghost Ops, DOM mapping, auto tagging, AI test generation  
+**Platforms:** Web, mobile, OTT (Apple TV, Roku, Firestick)  
 
 ---
 
-## Highlights & Achievements
+## Highlights
 
-- Reduced full regression cycles from **2 weeks to under 1 day** via parallelized Cypress execution  
-- Decreased test flakiness by **60%+** using CI-driven stability dashboards and retry orchestration  
-- Led QA automation migration from **Angular to React** with zero CI/CD disruption  
-- Founded and led an internal **QA Guild**, embedding shift-left practices org-wide  
-- Designed and shipped internal QA frameworks now used across multiple product teams  
-
----
-
-## Personal Projects
-
-### 🧠 BuildGhost (Work in Progress)
-An experimental **AI-powered QA framework** focused on intelligent test tagging, DOM mapping, and AI-assisted test generation to dramatically reduce manual automation effort.
-
-### 🧩 TestGhost
-An initiative centered on improving QA velocity through custom automation tooling, test metrics, and early-stage consulting practices.
-
-### 💻 Collector eCommerce Platform
-A full-stack side project built with **Next.js, Supabase, and Stripe**, exploring scalable architecture, CI/CD automation, and QA observability for eCommerce systems.
+- Built and scaled automation for a large live streaming platform with millions of users  
+- Designed a release autonomy framework that reduced manual QA and stabilized deployments  
+- Implemented a unified test ID strategy that eliminated selector flakiness across teams  
+- Founded and led QA Guilds and Shift Left Guilds for over 5 years  
+- Developed internal AI utilities for DOM harvesting, test scaffolding, and automatic tagging  
 
 ---
 
-## Why I Build
+## Projects
 
-Automation is more than a tool to me, it is a catalyst for **developer confidence, release velocity, and product trust**. My goal is always the same: make quality **measurable, predictable, and fast**.
+### BuildGhost.dev  
+Internal AI powered QA utilities focused on DOM mapping, test generation, and selector stability.
+
+### Ghost Ops  
+A DOM patch engine that stabilizes selectors and reduces long term test flakiness.
+
+---
+
+## Portfolio Website  
+*Coming Soon*
+
+My portfolio site is being built from scratch as a fully interactive experience that includes:
+
+- A video demo theater showcasing real automation systems  
+- A Rolodex style skill card system  
+- Each skill card dynamically expands into real world usage, tooling, and architecture examples  
+- End to end walkthroughs of how frameworks, CI systems, and test strategies were built and used  
+
+The goal is to present not just tools, but the exact systems and decisions behind them.
 
 ---
 
 ## Let’s Connect
 
-**Email:** buildghost.dev@gmail.com  
-**LinkedIn:** https://www.linkedin.com/in/markrosenthalqa  
-**GitHub:** https://github.com/RosenthalMark  
-
-Currently open to collaborations, QA architecture discussions, and opportunities to drive automation strategy at scale.
+- GitHub: **github.com/RosenthalMark**  
+- Portfolio: coming soon  
+- LinkedIn: available on request  
