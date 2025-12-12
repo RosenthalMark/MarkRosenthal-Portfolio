@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CI/CD Pipeline Animation</title>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      background: #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    html {
+      height: 100%;
+    }
+
+    .pipeline-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .pipeline-stage {
+      position: absolute;
+      text-align: center;
+      opacity: 0;
+      transform: scale(0.8);
+    }
+
+    .pipeline-stage:nth-child(1) {
+      animation: stageAppear 1s ease forwards, stageFadeOut 0.5s ease forwards 1s;
+    }
+
+    .pipeline-stage:nth-child(2) {
+      animation: stageAppear 1s ease forwards 1.5s, stageFadeOut 0.5s ease forwards 2.5s;
+    }
+
+    .pipeline-stage:nth-child(3) {
+      animation: stageAppear 1s ease forwards 3s;
+    }
+
+    @keyframes stageAppear {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes stageFadeOut {
+      to {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+    }
+
+    .stage-icon {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 2rem;
+      background: rgba(0, 255, 200, 0.1);
+      border: 4px solid #00ffc8;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      position: relative;
+      box-shadow: 0 0 50px rgba(0, 255, 200, 0.4);
+    }
+
+    .stage-icon::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 3px solid #00ffc8;
+      opacity: 0;
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.5;
+        transform: scale(1.2);
+      }
+    }
+
+    .stage-title {
+      font-family: 'SF Mono', 'Monaco', monospace;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #00ffc8;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 1rem;
+    }
+
+    .stage-subtitle {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 1.3rem;
+      color: #808080;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* Checkmark for release stage */
+    .checkmark {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      stroke: #00ffc8;
+      stroke-width: 4;
+      stroke-miterlimit: 10;
+      fill: none;
+    }
+
+    .checkmark-circle {
+      stroke-dasharray: 166;
+      stroke-dashoffset: 166;
+      animation: checkmarkCircle 0.6s ease forwards;
+      animation-delay: 3.2s;
+    }
+
+    .checkmark-check {
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      animation: checkmarkCheck 0.4s ease forwards;
+      animation-delay: 3.5s;
+    }
+
+    @keyframes checkmarkCircle {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes checkmarkCheck {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .stage-icon {
+        width: 150px;
+        height: 150px;
+        font-size: 4rem;
+      }
+
+      .stage-title {
+        font-size: 2rem;
+      }
+
+      .stage-subtitle {
+        font-size: 1rem;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="pipeline-container"><!-- Stage 1: GitHub Push -->
+   <div class="pipeline-stage">
+    <div class="stage-icon">
+     <svg width="100" height="100" viewbox="0 0 24 24" fill="#00ffc8"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+     </svg>
+    </div>
+    <div class="stage-title">
+     Git Push
+    </div>
+    <div class="stage-subtitle">
+     Code Committed
+    </div>
+   </div><!-- Stage 2: Automated Testing -->
+   <div class="pipeline-stage">
+    <div class="stage-icon">
+     <svg width="120" height="120" viewbox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" stroke="#00ffc8" stroke-width="5" fill="rgba(0, 255, 200, 0.1)" /> <text x="50" y="50" font-family="Arial, sans-serif" font-size="42" font-weight="bold" fill="#00ffc8" text-anchor="middle" dominant-baseline="central">
+       cy
+      </text>
+     </svg>
+    </div>
+    <div class="stage-title">
+     Automation Tests
+    </div>
+    <div class="stage-subtitle">
+     Cypress + Jenkins + Docker
+    </div>
+   </div><!-- Stage 3: Polished Release -->
+   <div class="pipeline-stage">
+    <div class="stage-icon">
+     <svg class="checkmark" viewbox="0 0 52 52"><circle class="checkmark-circle" cx="26" cy="26" r="25" /> <path class="checkmark-check" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+     </svg>
+    </div>
+    <div class="stage-title">
+     Ship It
+    </div>
+    <div class="stage-subtitle">
+     Production Ready
+    </div>
+   </div>
+  </div>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a81f196d65e6a23',t:'MTc2NDc1MzE2MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

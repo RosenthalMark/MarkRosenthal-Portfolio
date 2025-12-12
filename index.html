@@ -1,0 +1,2958 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QA Portfolio - Automation That Actually Works</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+      background: radial-gradient(circle at top, #101515 0, #050808 55%, #020404 100%);
+      color: #e0e0e0;
+      line-height: 1.6;
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    html {
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Navigation */
+    nav {
+      position: static;
+      width: 100%;
+      background: transparent;
+      backdrop-filter: none;
+      padding: 0.5rem 1.6rem;
+      z-index: auto;
+      border-bottom: none;
+      box-shadow: none;
+      margin: 0 auto;
+      max-width: 1400px;
+    }
+
+    .nav-toggle {
+      display: none;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 1.4rem;
+      flex-wrap: wrap;
+      max-width: 1400px;
+      margin-inline: auto;
+      transition: max-height 0.3s ease;
+    }
+
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+      position: relative;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    }
+
+    nav a:hover {
+      color: #00ffc8;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #00ffc8;
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 3.25rem 1.5rem 3.25rem;
+      background: transparent;
+      position: relative;
+      overflow: hidden;
+      max-width: 1400px;
+      margin-inline: auto;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: -10%;
+      width: 140%;
+      height: 140%;
+      background: 
+        radial-gradient(circle at top left, rgba(0, 255, 200, 0.09), transparent 55%),
+        linear-gradient(90deg, rgba(0, 255, 200, 0.03) 1px, transparent 1px),
+        linear-gradient(rgba(0, 255, 200, 0.03) 1px, transparent 1px);
+      background-size: auto, 50px 50px, 50px 50px;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Intro Media */
+    .intro-media {
+      width: 100%;
+      margin-bottom: 3rem;
+    }
+
+    .media-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 255, 200, 0.18);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 255, 200, 0.08);
+      backdrop-filter: blur(8px);
+      background: radial-gradient(circle at top left, rgba(0, 255, 200, 0.12), #050707 55%);
+      transition: all 0.3s ease;
+    }
+
+    .media-container:hover {
+      border-color: #00ffc8;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.65);
+      transform: translateY(-1px);
+    }
+
+    .intro-gif {
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .intro-gif.is-ready {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .media-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: radial-gradient(circle at top left, rgba(0, 255, 200, 0.15), #050707 55%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .demo-placeholder {
+      display: none;
+    }
+
+    .placeholder-text {
+      font-size: 1.5rem;
+      color: #00ffc8;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .placeholder-subtext {
+      font-size: 0.9rem;
+      color: #808080;
+      text-align: center;
+    }
+
+    .hero-label {
+      color: #00ffc8;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-greeting {
+      font-size: 1.1rem;
+      color: #c4c4c4;
+      max-width: 720px;
+      margin: 0 0 0.75rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      text-shadow: none;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      margin: 0 0 1.5rem;
+      color: #ffffff;
+      font-weight: 900;
+      line-height: 1.1;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      text-shadow: none;
+    }
+
+    .hero h1 .highlight {
+      color: #00ffc8;
+      position: relative;
+      display: inline-block;
+      text-shadow: none;
+    }
+
+    .hero-subtext {
+      font-size: 1.3rem;
+      color: #b0b0b0;
+      max-width: 700px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      text-shadow: none;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: left;
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #00ffc8;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #808080;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 1rem 2.5rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      transition: all 0.25s ease;
+      border: 2px solid;
+      cursor: pointer;
+      font-family: 'SF Mono', monospace;
+      position: relative;
+      overflow: hidden;
+      box-shadow: none;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.18), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    .btn-primary {
+      background: #00ffc8;
+      color: #0a0a0a;
+      border-color: #00ffc8;
+      box-shadow: none;
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      color: #00ffc8;
+      box-shadow: 0 18px 45px rgba(0, 255, 200, 0.55);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #00ffc8;
+      border-color: #00ffc8;
+      box-shadow: none;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0, 255, 200, 0.08);
+      color: #00ffc8;
+      box-shadow: 0 14px 40px rgba(0, 255, 200, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .btn:hover::after {
+      opacity: 1;
+    }
+
+    /* Section Styles */
+    section {
+      padding: 5rem 2.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    section h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #ffffff;
+      font-weight: 900;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    section h2 .highlight {
+      color: #00ffc8;
+    }
+
+    .section-intro {
+      font-size: 1.2rem;
+      color: #b0b0b0;
+      margin-bottom: 3rem;
+      max-width: 800px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    /* Panel Shell (ghostified card for key sections) */
+    .panel-section {
+      background: radial-gradient(circle at top left, rgba(0, 255, 200, 0.06), transparent 60%),
+                  radial-gradient(circle at bottom right, rgba(0, 255, 200, 0.04), transparent 60%),
+                  linear-gradient(145deg, #050808 0%, #111111 50%, #050808 100%);
+      border-radius: 20px;
+      border: 1px solid rgba(0, 255, 200, 0.14);
+      box-shadow:
+        0 10px 22px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(0, 255, 200, 0.05);
+      padding: 2.5rem 2.5rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel-section::before,
+    .panel-section::after {
+      content: '';
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(0, 255, 200, 0.3), transparent);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .panel-section::before {
+      top: 0;
+      transform: translateY(-1px);
+    }
+
+    .panel-section::after {
+      bottom: 0;
+      transform: translateY(1px);
+    }
+
+    /* Demo Theater */
+    #demos h2 {
+      margin-bottom: 0.75rem;
+    }
+
+    #demos .section-intro {
+      margin-bottom: 2.25rem;
+    }
+
+    .demo-carousel-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      padding: 1.5rem 0;
+      max-width: 1400px;
+      margin: 0 auto;
+      overflow-x: auto;
+    }
+
+    .demo-carousel {
+      display: flex;
+      gap: 1.5rem;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 0 3rem;
+      scroll-snap-type: x proximity;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      align-items: stretch;
+    }
+
+    .demo-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: 1px solid rgba(0, 255, 200, 0.45);
+      color: #00ffc8;
+      width: 44px;
+      height: 44px;
+      font-size: 1.7rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      z-index: 10;
+      border-radius: 8px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+    }
+
+    .demo-nav-btn:hover {
+      background: rgba(0, 255, 200, 0.12);
+      color: #00ffc8;
+      transform: translateY(-50%) translateY(-1px);
+      box-shadow: 0 16px 40px rgba(0, 255, 200, 0.35);
+    }
+
+    .demo-nav-prev {
+      left: 0;
+    }
+
+    .demo-nav-next {
+      right: 0;
+    }
+
+    .see-all-demos-btn {
+      display: block;
+      margin: 2rem auto 0;
+      padding: 1rem 2rem;
+      background: rgba(0, 255, 200, 0.06);
+      border: 2px solid #00ffc8;
+      border-radius: 999px;
+      color: #00ffc8;
+      font-family: 'SF Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: none;
+    }
+
+    .see-all-demos-btn:hover {
+      background: #00ffc8;
+      color: #0a0a0a;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(0, 255, 200, 0.35);
+    }
+
+    /* All Demos Modal */
+    .all-demos-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(1, 3, 4, 0.96);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .all-demos-modal.active {
+      display: flex;
+    }
+
+    .all-demos-content {
+      max-width: 1400px;
+      width: 100%;
+      background: radial-gradient(circle at top left, rgba(0, 255, 200, 0.08), #050707 55%);
+      border: 1px solid #00ffc8;
+      border-radius: 16px;
+      padding: 3rem;
+      position: relative;
+      max-height: 90%;
+      overflow-y: auto;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55);
+    }
+
+    .all-demos-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      color: #00ffc8;
+      font-size: 2rem;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .all-demos-close:hover {
+      transform: scale(1.15) rotate(90deg);
+    }
+
+    .all-demos-content h2 {
+      color: #00ffc8;
+      font-size: 2.5rem;
+      margin-top: 0;
+      margin-bottom: 2rem;
+      font-family: 'Anton', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    .demo-categories {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .category-btn {
+      padding: 0.75rem 1.5rem;
+      background: rgba(0, 255, 200, 0.1);
+      border: 1px solid rgba(0, 255, 200, 0.3);
+      color: #00ffc8;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.25s ease;
+      font-family: 'SF Mono', monospace;
+    }
+
+    .category-btn:hover,
+    .category-btn.active {
+      background: #00ffc8;
+      color: #0a0a0a;
+      box-shadow: 0 14px 36px rgba(0, 255, 200, 0.3);
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .demo-card {
+      background: rgba(11, 16, 16, 0.96);
+      border: 1px solid rgba(0, 255, 200, 0.18);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      min-width: 240px;
+      width: 260px;
+      flex-shrink: 0;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55);
+      display: flex;
+      flex-direction: column;
+      scroll-snap-align: start;
+      height: 100%;
+    }
+
+    .demo-card:hover {
+      border-color: #00ffc8;
+      transform: translateY(-3px);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .demo-card:nth-child(1) .demo-thumbnail {
+      background-image:
+        linear-gradient(120deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.1)),
+        url('assets/video-thumbnails/cypress.png');
+    }
+
+    .demo-card:nth-child(2) .demo-thumbnail {
+      background-image:
+        linear-gradient(120deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.1)),
+        url('assets/video-thumbnails/shiftleft.png');
+    }
+
+    .demo-card:nth-child(3) .demo-thumbnail {
+      background-image:
+        linear-gradient(120deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.1)),
+        url('assets/video-thumbnails/CICDvideo.png');
+    }
+
+    .demo-card:nth-child(4) .demo-thumbnail {
+      background-image:
+        linear-gradient(120deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.1)),
+        url('assets/video-thumbnails/apitesting.png');
+    }
+
+    .demo-card:nth-child(5) .demo-thumbnail {
+      background-image:
+        linear-gradient(120deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.1)),
+        url('assets/video-thumbnails/PHONETESTING.png');
+    }
+
+    .demo-card:nth-child(6) .demo-thumbnail {
+      background-image:
+        linear-gradient(120deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.1)),
+        url('assets/video-thumbnails/QAXAI.png');
+    }
+
+    .demo-thumbnail {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      background: linear-gradient(135deg, #141414 0%, #1a1a1a 100%);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      object-fit: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 0.6rem;
+    }
+
+    .demo-thumbnail::before {
+      content: '▶';
+      font-size: 3rem;
+      color: #00ffc8;
+      position: absolute;
+      z-index: 2;
+      transition: all 0.3s ease;
+      text-shadow: none;
+    }
+
+    .demo-card:hover .demo-thumbnail::before {
+      transform: scale(1.15);
+      opacity: 0.9;
+    }
+
+    .demo-info {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      flex: 1;
+      justify-content: flex-start;
+    }
+
+    .demo-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .demo-description {
+      font-size: 0.88rem;
+      color: #b0b0b0;
+      margin: 0;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .demo-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: auto;
+    }
+
+    .tag {
+      padding: 0.25rem 0.75rem;
+      background: rgba(0, 255, 200, 0.1);
+      border: 1px solid rgba(0, 255, 200, 0.3);
+      color: #00ffc8;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Video Player Modal */
+    .video-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(1, 3, 4, 0.96);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .video-modal.active {
+      display: flex;
+    }
+
+    .video-container {
+      max-width: 1200px;
+      width: 100%;
+      position: relative;
+    }
+
+    .video-close {
+      position: absolute;
+      top: -3rem;
+      right: 0;
+      background: none;
+      border: none;
+      color: #00ffc8;
+      font-size: 2rem;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+
+    .video-close:hover {
+      transform: scale(1.15);
+    }
+
+    .video-player {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #000;
+      border: 2px solid #00ffc8;
+      border-radius: 10px;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55);
+    }
+
+    /* Proof Section */
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.75rem;
+    }
+
+    .proof-card {
+      background: rgba(11, 16, 16, 0.96);
+      border: 1px solid rgba(0, 255, 200, 0.16);
+      border-radius: 14px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
+    }
+
+    .proof-card:hover {
+      border-color: #00ffc8;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.55);
+    }
+
+    .mobile-proof-extra {
+      display: none;
+    }
+
+    .proof-metric {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: #00ffc8;
+      line-height: 1;
+      margin-bottom: 0.6rem;
+    }
+
+    .proof-label {
+      font-size: 1.1rem;
+      color: #ffffff;
+      margin-bottom: 0.35rem;
+      font-weight: 600;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .proof-description {
+      font-size: 0.95rem;
+      color: #b0b0b0;
+      line-height: 1.5;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    /* AI Assisted QA tweaks */
+    #ai-assisted-qa {
+      padding-top: 4.25rem;
+      padding-bottom: 3.25rem;
+    }
+
+    #ai-assisted-qa .proof-grid {
+      gap: 1.5rem;
+    }
+
+    #ai-assisted-qa .proof-card {
+      padding: 1.6rem 1.7rem;
+    }
+
+    /* Skills Carousel Section */
+    #skills {
+      padding-top: 3.25rem;
+      background: radial-gradient(circle at 20% 20%, rgba(0, 255, 200, 0.06), rgba(6, 10, 10, 0.9) 55%);
+      border: 1px solid rgba(0, 255, 200, 0.18);
+      border-radius: 16px;
+    }
+
+    #skills h2 {
+      margin-bottom: 0.75rem;
+    }
+
+    #skills .section-intro {
+      margin-bottom: 1.75rem;
+    }
+
+    #skills .panel-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 3rem;
+      background: none;
+      border: none;
+      box-shadow: none;
+    }
+
+    .skills-carousel-section {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 2.5rem;
+      align-items: stretch;
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: visible;
+      padding: 1.5rem 0 2rem;
+      min-height: 360px;
+    }
+
+      .skills-carousel {
+        position: relative;
+        height: auto;
+        min-height: 360px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: visible;
+      }
+
+    .skill-card {
+      position: absolute;
+      width: 280px;
+      min-height: 360px;
+      max-width: 100%;
+      background: rgba(11, 16, 16, 0.98);
+      border: 2px solid rgba(0, 255, 200, 0.22);
+      border-radius: 14px;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      cursor: grab;
+      user-select: none;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .skill-card:active {
+      cursor: grabbing;
+    }
+
+    .skill-card.center {
+      z-index: 10;
+      transform: translateX(0) translateY(0) scale(1);
+      opacity: 1;
+      border-color: #00ffc8;
+      box-shadow: 0 12px 26px rgba(0, 255, 200, 0.18);
+    }
+
+    .skill-card.left {
+      z-index: 5;
+      transform: translateX(-18%) translateY(6px) scale(0.9) rotateY(18deg);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .skill-card.right {
+      z-index: 5;
+      transform: translateX(18%) translateY(6px) scale(0.9) rotateY(-18deg);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .skill-card.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.5);
+    }
+
+    .skill-card h3 {
+      color: #00ffc8;
+      font-size: 1.6rem;
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+      font-family: 'Anton', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    .skill-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 0.75rem 0;
+    }
+
+    .skill-card li {
+      color: #e0e0e0;
+      padding: 0.35rem 0;
+      position: relative;
+      padding-left: 1.3rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 0.9rem;
+    }
+
+    .skill-card li::before {
+      color: #00c7a5;
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: #00ffc8;
+      font-weight: 900;
+      font-size: 1.3rem;
+    }
+
+    .skill-accordion {
+      display: none;
+    }
+
+    .skill-card.open .skill-accordion {
+      display: none;
+    }
+
+    .card-usage-btn {
+      display: none;
+      margin-top: auto;
+    }
+
+      .carousel-dots {
+        display: none;
+      }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(0, 255, 200, 0.2);
+      border: 2px solid rgba(0, 255, 200, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .carousel-dot.active {
+      background: #00ffc8;
+      box-shadow: 0 0 15px rgba(0, 255, 200, 0.8);
+      transform: scale(1.3);
+    }
+
+    .view-all-skills-btn {
+      background: #00f5c8;
+      color: #000;
+      display: block;
+      margin: 2rem auto 0;
+      padding: 1rem 2.5rem;
+      background: rgba(0, 255, 200, 0.06);
+      border: 2px solid #00ffc8;
+      border-radius: 999px;
+      color: #00ffc8;
+      font-family: 'SF Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: none;
+    }
+
+    .view-all-skills-btn:hover {
+      background: #00ffc8;
+      color: #0a0a0a;
+      transform: translateY(-2px);
+      box-shadow: 0 18px 48px rgba(0, 255, 200, 0.38);
+    }
+
+    .mobile-skill-cta {
+      display: none;
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .mobile-skill-cta p {
+      margin: 0;
+      color: #e0e0e0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .mobile-findout-btn {
+      padding: 0.6rem 1.4rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 255, 200, 0.4);
+      background: rgba(0, 255, 200, 0.12);
+      color: #00ffc8;
+      font-family: 'SF Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+    }
+
+    /* Skills Modal */
+    .skills-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(1, 3, 4, 0.96);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .skills-modal.active {
+      display: flex;
+    }
+
+    .skills-modal-content {
+      max-width: 1200px;
+      width: 100%;
+      background: radial-gradient(circle at top left, rgba(0, 255, 200, 0.08), #050707 55%);
+      border: 2px solid #00ffc8;
+      border-radius: 16px;
+      padding: 3rem;
+      position: relative;
+      max-height: 90%;
+      overflow-y: auto;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.6);
+    }
+
+    .skills-modal-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      color: #00ffc8;
+      font-size: 2rem;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .skills-modal-close:hover {
+      transform: scale(1.15) rotate(90deg);
+    }
+
+    .skills-modal h2 {
+      color: #00ffc8;
+      font-size: 2.5rem;
+      margin-top: 0;
+      margin-bottom: 2rem;
+      font-family: 'Anton', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    .modal-skill-section {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(0, 255, 200, 0.2);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .modal-skill-section h3 {
+      color: #00ffc8;
+      font-size: 1.8rem;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      font-family: 'Anton', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .modal-skill-section h4 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 600;
+    }
+
+    .modal-skill-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5rem 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 0.5rem;
+    }
+
+    .modal-skill-section li {
+      padding: 0.5rem 0;
+      color: #e0e0e0;
+      position: relative;
+      padding-left: 1.5rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 0.95rem;
+    }
+
+    .modal-skill-section li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: #00ffc8;
+      font-weight: 900;
+      font-size: 1.2rem;
+    }
+
+    .modal-skill-section p {
+      color: #b0b0b0;
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    /* Terminal Panel */
+    .terminal-panel {
+      background: #000000;
+      display: flex;
+      flex-direction: column;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 255, 200, 0.35);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55);
+    }
+
+    .terminal-header {
+      background: linear-gradient(135deg, rgba(0, 255, 200, 0.26), rgba(0, 255, 200, 0.12));
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid rgba(0, 255, 200, 0.4);
+    }
+
+    .terminal-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .terminal-btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .terminal-btn.red {
+      background: #ff5f56;
+    }
+
+    .terminal-btn.yellow {
+      background: #ffbd2e;
+    }
+
+    .terminal-btn.green {
+      background: #27c93f;
+    }
+
+    .terminal-title {
+      color: #02110f;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .terminal-body {
+      padding: 1.75rem;
+      font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      flex: 1;
+      overflow-y: auto;
+      background: radial-gradient(circle at top left, rgba(0, 255, 200, 0.18), #030606 60%);
+    }
+
+    .terminal-prompt {
+      color: #00ffc8;
+      margin-bottom: 1rem;
+    }
+
+    .terminal-output {
+      color: #e0e0e0;
+      white-space: pre-wrap;
+      min-height: 260px;
+    }
+
+    .terminal-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 18px;
+      background: #00ffc8;
+      animation: blink 1s infinite;
+      margin-left: 2px;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    /* Experience Section */
+    .experience-item {
+      background: rgba(11, 16, 16, 0.96);
+      border-left: 2px solid rgba(0, 255, 200, 0.35);
+      border-radius: 12px;
+      padding: 2.25rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55);
+      border-top: 1px solid rgba(0, 255, 200, 0.12);
+      border-right: 1px solid rgba(0, 255, 200, 0.08);
+      border-bottom: 1px solid rgba(0, 255, 200, 0.08);
+    }
+
+    .experience-item h3 {
+      color: #ffffff;
+      font-size: 1.6rem;
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .experience-item .company {
+      color: #00ffc8;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .experience-item .dates {
+      color: #808080;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .experience-item ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .experience-item li {
+      padding: 0.5rem 0;
+      color: #e0e0e0;
+      position: relative;
+      padding-left: 1.25rem;
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .experience-item li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: #00ffc8;
+      font-weight: 900;
+      font-size: 1.3rem;
+    }
+
+    /* Contact Section */
+    .contact-content {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .contact-content p {
+      font-size: 1.3rem;
+      color: #b0b0b0;
+      margin-bottom: 3rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      padding: 1rem 2rem;
+      background: rgba(0, 255, 200, 0.06);
+      border: 2px solid #00ffc8;
+      border-radius: 999px;
+      color: #00ffc8;
+      text-decoration: none;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      font-family: 'SF Mono', monospace;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+    }
+
+    .contact-link:hover {
+      background: #00ffc8;
+      color: #0a0a0a;
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px rgba(0, 255, 200, 0.3);
+    }
+
+    .accordion-toggle {
+      position: absolute;
+      opacity: 0;
+      pointer-events: auto;
+      width: 1px;
+      height: 1px;
+    }
+
+    .accordion-toggle-label {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.2rem;
+      margin: 0.25rem 0 0.75rem;
+      background: rgba(0, 255, 200, 0.06);
+      border: 1px solid rgba(0, 255, 200, 0.3);
+      color: #00ffc8;
+      border-radius: 10px;
+      font-family: 'SF Mono', monospace;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .accordion-toggle-label:hover {
+      background: rgba(0, 255, 200, 0.12);
+    }
+
+    .accordion-toggle-label .toggle-less {
+      display: none;
+    }
+
+    .accordion-extra-proof,
+    .accordion-extra-ai {
+      transition: max-height 0.35s ease, opacity 0.35s ease, margin 0.35s ease, padding 0.35s ease;
+    }
+
+    .proof-toggle,
+    .ai-toggle {
+      grid-column: 1 / -1;
+      text-align: center;
+      margin: 0.25rem 0 0.5rem;
+    }
+
+    .proof-toggle .toggle-less,
+    .ai-toggle .toggle-less {
+      display: none;
+    }
+
+    #proofAccordion:checked ~ .proof-grid .proof-toggle .toggle-more,
+    #aiAccordion:checked ~ .proof-grid .ai-toggle .toggle-more {
+      display: none;
+    }
+
+    #proofAccordion:checked ~ .proof-grid .proof-toggle .toggle-less,
+    #aiAccordion:checked ~ .proof-grid .ai-toggle .toggle-less {
+      display: inline;
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(3, 5, 6, 0.98);
+      padding: 2rem;
+      text-align: center;
+      color: #808080;
+      border-top: 1px solid rgba(0, 255, 200, 0.3);
+      font-size: 0.9rem;
+      margin-top: 3rem;
+      box-shadow: 0 -8px 18px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .skills-carousel-section {
+        grid-template-columns: 1fr;
+      }
+
+      .terminal-panel {
+        display: none;
+      }
+
+      .card-usage-btn {
+        display: none;
+      }
+
+      .mobile-skill-cta {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+        margin-top: 0.75rem;
+      }
+    }
+
+    @media (max-width: 900px) {
+      nav {
+        padding-inline: 1.4rem;
+      }
+
+      nav ul {
+        gap: 1.5rem;
+      }
+
+      .hero {
+        padding: 3rem 1.5rem 2.75rem;
+      }
+
+      section {
+        padding: 3.75rem 1.5rem;
+      }
+
+      .panel-section {
+        padding-inline: 1.5rem;
+      }
+
+      .experience-item {
+        padding: 2rem 1.75rem;
+        border-left: none;
+        border-top: 1px solid rgba(0, 255, 200, 0.18);
+      }
+
+      .experience-item li {
+        padding: 0.5rem 0;
+        padding-left: 1.15rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      #proof,
+      #ai-assisted-qa {
+        padding-top: 0.2rem;
+        padding-bottom: 0.2rem;
+        padding-left: 1.4rem;
+        padding-right: 1.4rem;
+        border-top: 1px solid rgba(0, 255, 200, 0.08);
+        border-bottom: 1px solid rgba(0, 255, 200, 0.08);
+      }
+
+      .mobile-proof-extra {
+        display: block;
+      }
+
+      #proof .section-intro,
+      #ai-assisted-qa .section-intro {
+        margin-bottom: 1.5rem;
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+
+      #proof h2,
+      #ai-assisted-qa h2 {
+        margin-top: 0;
+      }
+
+      #proof .proof-grid,
+      #ai-assisted-qa .proof-grid,
+      .proof-grid {
+        display: flex;
+        flex-direction: column;
+        grid-template-columns: 1fr;
+        gap: 0.18rem;
+        align-items: stretch;
+        padding-bottom: 0.05rem;
+        margin-bottom: 0;
+      }
+
+      #proof .proof-card,
+      #ai-assisted-qa .proof-card,
+      .proof-card {
+        padding: 1.2rem 1.2rem;
+        margin: 0;
+        border-radius: 8px;
+        order: 1;
+        text-align: center;
+      }
+
+      #proof .proof-metric {
+        font-size: 3rem;
+        margin-bottom: 0.35rem;
+      }
+
+      #proof .proof-label,
+      #ai-assisted-qa .proof-label {
+        font-size: 1.05rem;
+        margin-bottom: 0.35rem;
+        line-height: 1.3;
+        display: inline-block;
+      }
+
+      #proof .proof-description,
+      #ai-assisted-qa .proof-description {
+        font-size: 0.95rem;
+        line-height: 1.65;
+        text-align: center;
+      }
+
+      #proof .proof-metric {
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: #00ffc8;
+        margin: 0 0.35rem 0 0;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .all-demos-content h2 {
+        font-size: 1.6rem;
+        white-space: nowrap;
+        line-height: 1.1;
+        text-align: center;
+      }
+
+      #skills .panel-section {
+        padding: 1rem !important;
+        max-width: 100% !important;
+        background: none;
+        border: none;
+        box-shadow: none;
+      }
+
+      nav {
+        padding: 0.2rem 1.25rem;
+      }
+
+      nav ul {
+        gap: 0.35rem 0.85rem;
+        max-height: none;
+        overflow: visible;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 0;
+      }
+
+      nav a {
+        font-size: 0.68rem;
+        letter-spacing: 1.1px;
+        padding: 0.2rem 0.15rem;
+      }
+      
+      .accordion-toggle-label {
+        display: none;
+      }
+
+      #navToggle,
+      .nav-toggle {
+        display: none !important;
+      }
+
+      #skills .panel-section {
+        max-width: 100%;
+        margin: 0;
+        padding: 2rem 1.25rem 2.5rem;
+        background: none;
+        border: none;
+        box-shadow: none;
+      }
+
+    /* Fixed: Ensure padding and border are zero when hidden to remove gap */
+    #proof .proof-grid .accordion-extra-proof,
+    #ai-assisted-qa .proof-grid .accordion-extra-ai {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      margin: 0;
+      padding: 0 !important;
+      border: none !important;
+      pointer-events: none;
+      transition: max-height 0.45s ease-in-out, opacity 0.35s ease-in-out, margin 0.35s ease-in-out, padding 0.35s ease-in-out;
+    }
+
+    /* Fixed: Restore padding and border when checked */
+      #proof #proofAccordion:checked ~ .proof-grid .accordion-extra-proof {
+        max-height: 2000px;
+        opacity: 1;
+        margin-top: 0.15rem;
+        padding: 1.2rem 1.2rem !important;
+        border: 1px solid rgba(0, 255, 200, 0.16) !important;
+        pointer-events: auto;
+        transition: max-height 0.45s ease-in-out, opacity 0.35s ease-in-out, margin 0.35s ease-in-out, padding 0.35s ease-in-out;
+      }
+
+      #aiAccordion:checked ~ .proof-grid .accordion-extra-ai {
+        max-height: 2000px;
+        opacity: 1;
+        margin-top: 0.15rem;
+        padding: 1.2rem 1.2rem !important;
+        border: 1px solid rgba(0, 255, 200, 0.16) !important;
+        pointer-events: auto;
+        transition: max-height 0.45s ease-in-out, opacity 0.35s ease-in-out, margin 0.35s ease-in-out, padding 0.35s ease-in-out;
+      }
+
+    #proof .proof-card.accordion-extra-proof,
+    .proof-card.accordion-extra-ai {
+      order: 2;
+    }
+
+      .accordion-toggle-label {
+        width: auto;
+        align-self: center;
+      }
+
+      .accordion-toggle-label.proof-toggle,
+      .accordion-toggle-label.ai-toggle {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1.5rem;
+        margin-bottom: 0.02rem;
+        background: rgba(10, 15, 15, 0.8);
+        border: 1px solid rgba(0, 255, 200, 0.35);
+        color: #00ffc8;
+        border-radius: 999px;
+        padding: 0.45rem 0.82rem;
+        font-size: 0.7rem;
+        gap: 0.5rem;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+        order: 3;
+        align-self: center;
+      }
+
+      .accordion-toggle-label.proof-toggle::after,
+      .accordion-toggle-label.ai-toggle::after {
+        content: '▼';
+        font-size: 0.9rem;
+        line-height: 1;
+        color: rgba(0, 255, 200, 0.85);
+        background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.12), rgba(0, 0, 0, 0.2));
+        border: 1px solid rgba(0, 255, 200, 0.35);
+        border-radius: 50%;
+        width: 26px;
+        height: 26px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: inset 0 0 12px rgba(0, 255, 200, 0.15);
+      }
+
+      #proofAccordion:checked ~ .proof-grid .proof-toggle::after,
+      #aiAccordion:checked ~ .proof-grid .ai-toggle::after {
+        content: '▲';
+      }
+
+      #ai-assisted-qa {
+        padding-top: 0.2rem;
+      }
+
+      .skills-carousel-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+      }
+
+      .carousel-wrapper {
+        order: 1;
+        width: 100%;
+        padding: 0;
+        overflow: visible;
+        height: auto;
+        min-height: 380px;
+      }
+
+      .skills-carousel {
+        position: relative;
+        width: 100%;
+        height: auto;
+        min-height: 320px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 1.25rem;
+        overflow: visible;
+      }
+
+      .mobile-skill-cta {
+        display: block;
+        text-align: center;
+        margin-top: 1.75rem;
+      }
+
+      .skill-card {
+        width: 78vw;
+        max-width: 300px;
+        min-height: 220px;
+        padding: 0.9rem 1rem 1rem;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        pointer-events: none;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.45);
+        cursor: grab;
+        overflow: hidden;
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+      }
+
+      .skill-card h3 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .skill-card ul {
+        max-height: 95px;
+        overflow: hidden;
+        margin-bottom: 0;
+      }
+
+      .skill-card li {
+        font-size: 0.76rem;
+        padding: 0.22rem 0;
+      }
+
+      .terminal-panel {
+        display: none !important;
+      }
+
+      .hero {
+        padding: 2.25rem 1.5rem 1.6rem;
+      }
+
+      .hero h1 {
+        font-size: 2.3rem;
+        line-height: 1.15;
+        max-width: 18ch;
+      }
+
+      .hero-subtext {
+        font-size: 1.1rem;
+      }
+
+      .hero-stats {
+        gap: 1.5rem;
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+      }
+
+      section {
+        padding: 2.4rem 1.5rem;
+        padding-top: 2.4rem;
+        padding-bottom: 2.4rem;
+      }
+
+      section h2 {
+        font-size: 2rem;
+      }
+
+      .demo-carousel {
+        padding: 0 0.75rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 0.9rem;
+      }
+
+      .demo-card {
+        min-width: 220px;
+        width: 75vw;
+        max-width: 260px;
+      }
+
+      .demo-carousel-wrapper {
+        max-width: 100%;
+        padding: 0 0 1.25rem;
+      }
+
+      .demo-nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+      }
+
+      .proof-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .terminal-body {
+        padding: 1.5rem;
+        font-size: 0.85rem;
+      }
+
+      .media-container {
+        max-width: 100%;
+      }
+
+      .intro-media {
+        margin-bottom: 2rem;
+      }
+
+      .cta-buttons {
+        justify-content: center;
+        gap: 1.25rem;
+        margin-top: 1rem;
+      }
+
+      #demos {
+        padding-top: 1.6rem;
+        padding-bottom: 1.8rem;
+        max-width: 100%;
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      #demos .panel-section {
+        box-shadow: none;
+      }
+
+      #ai-assisted-qa {
+        padding-top: 0.35rem;
+        padding-bottom: 1.6rem;
+      }
+
+      #skills {
+        padding-top: 3rem;
+      }
+
+      #proof {
+        padding-top: 1.6rem;
+        padding-bottom: 0.8rem;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .accordion-toggle-label {
+        display: none !important;
+      }
+
+      .accordion-extra-proof,
+      .accordion-extra-ai {
+        max-height: none !important;
+        opacity: 1 !important;
+        overflow: visible !important;
+        margin: 0 !important;
+        padding: 2rem !important;
+        pointer-events: auto !important;
+      }
+    }
+
+    /* Mobile overrides */
+    @media (max-width: 768px) {
+      .carousel-wrapper {
+        padding-top: 4.5rem;
+        min-height: 360px;
+        height: auto;
+        overflow: visible;
+      }
+
+      .skill-card {
+        width: 72vw;
+        max-width: 280px;
+        min-height: 260px;
+        padding: 1rem 1.25rem 1.25rem;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .skill-card.center {
+        transform: translateX(-50%) translateY(0) scale(1);
+      }
+
+      .skill-card ul li {
+        text-align: center;
+      }
+
+      .skill-card ul li::before,
+      .skill-card ul li::after {
+        display: none;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <nav>
+   <input type="checkbox" id="navToggle" class="accordion-toggle" aria-label="Toggle navigation">
+   <label for="navToggle" class="accordion-toggle-label nav-toggle">
+    <span class="toggle-more">☰ Menu</span>
+    <span class="toggle-less">✕ Close</span>
+   </label>
+   <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#demos">Demos</a></li>
+    <li><a href="#proof">The Proof</a></li>
+    <li><a href="#ai-assisted-qa">AI</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+   </ul>
+  </nav>
+  <section id="home" class="hero">
+  <div class="hero-content">
+    <div class="intro-media">
+      <div class="media-container">
+      <video
+       class="intro-gif"
+       autoplay
+       muted
+       loop
+       playsinline
+       preload="auto"
+      >
+       <source src="/assets/introVideo/introMP4.mp4" type="video/mp4">
+
+       <img src="/assets/introVideo/placeholder.jpg" alt="Intro placeholder">
+      </video>
+      </div>
+    </div>
+
+    <div class="hero-label">
+     QA AUTOMATION ARCHITECT &amp; LEADER
+    </div>
+    <p class="hero-greeting">
+     Hey, Mark here. I design QA systems and automation frameworks that shift quality left and keep pipelines stable at scale.
+    </p>
+    <h1 id="hero-headline">I build automation that <span class="highlight">actually works</span></h1>
+    <p class="hero-subtext" id="hero-subtext">And I lead teams to stop treating QA like an afterthought. 9+ years turning flaky tests into reliable systems, manual testers into automation engineers, and building quality-first cultures through guild leadership.</p>
+    <div class="hero-stats">
+     <div class="stat">
+      <div class="stat-number">
+       60%
+      </div>
+      <div class="stat-label">
+       Flake Reduction
+      </div>
+     </div>
+     <div class="stat">
+      <div class="stat-number">
+       14x
+      </div>
+      <div class="stat-label">
+       Faster Regression
+      </div>
+     </div>
+     <div class="stat">
+      <div class="stat-number">
+       5 Years
+      </div>
+      <div class="stat-label">
+       Leading Guilds
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+  <section id="demos">
+   <div class="panel-section">
+    <h2>Demo <span class="highlight">Theater</span></h2>
+    <p class="section-intro">Don't just take my word for it—watch me work. Here's a collection of automation demos, strategy breakdowns, and technical deep dives.</p>
+    <div class="demo-carousel-wrapper">
+     <button class="demo-nav-btn demo-nav-prev" id="demoPrevBtn">‹</button>
+     <button class="demo-nav-btn demo-nav-next" id="demoNextBtn">›</button>
+     <div class="demo-carousel" id="demoCarousel"></div>
+    </div>
+    <button class="see-all-demos-btn" id="seeAllDemosBtn">See All Demos</button>
+   </div>
+  </section>
+  <section id="proof">
+   <h2>The <span class="highlight">Proof</span></h2>
+   <p class="section-intro">Numbers don't lie. Here's the measurable impact I've delivered.</p>
+   <input type="checkbox" id="proofAccordion" class="accordion-toggle">
+   <div class="proof-grid">
+    <div class="proof-card">
+     <div class="proof-metric">
+      60%
+     </div>
+     <div class="proof-label">
+      Test Flakiness Eliminated
+     </div>
+     <div class="proof-description">
+      Rebuilt Cypress framework with smart waits, proper selectors, and retry logic. Went from unreliable tests to rock-solid automation.
+     </div>
+    </div>
+    <div class="proof-card">
+     <div class="proof-metric">
+      14x
+     </div>
+     <div class="proof-label">
+      Regression Speed Increase
+     </div>
+     <div class="proof-description">
+      Parallelized test execution across Docker containers in Jenkins. What took 2 hours now runs in 8 minutes.
+     </div>
+    </div>
+    <div class="proof-card mobile-proof-extra">
+     <div class="proof-label">
+      <span class="proof-metric">3 Teams</span> via Shadow-Ops
+     </div>
+     <div class="proof-description">
+      Cross-trained every QA with quarterly Shadow-Ops rotations so any team’s automation can be covered.
+     </div>
+    </div>
+    <div class="proof-card accordion-extra-proof">
+     <div class="proof-metric">
+      100%
+     </div>
+     <div class="proof-label">
+      Release Validation Accuracy
+     </div>
+     <div class="proof-description">
+      Zero production rollbacks in 3+ years. Every release validated against acceptance criteria before deployment.
+     </div>
+    </div>
+    <div class="proof-card accordion-extra-proof">
+     <div class="proof-metric">
+      5 Years
+     </div>
+     <div class="proof-label">
+      Shift-Left Guild Leadership
+     </div>
+     <div class="proof-description">
+      Taught devs and PMs to embed QA in design phase. Built a self-sufficient quality culture that doesn't rely on QA gatekeeping.
+     </div>
+    </div>
+    <label for="proofAccordion" class="accordion-toggle-label proof-toggle">
+     <span class="toggle-more">More Proof</span>
+     <span class="toggle-less">Less Proof</span>
+    </label>
+    <div class="proof-card accordion-extra-proof">
+     <div class="proof-metric">
+      3 Teams
+     </div>
+     <div class="proof-label">
+      Cross-Trained via QA-SHADOW-OPS
+     </div>
+     <div class="proof-description">
+      Eliminated knowledge silos with quarterly cross-training program. Every QA can now cover any team's automation.
+     </div>
+    </div>
+    <div class="proof-card accordion-extra-proof">
+     <div class="proof-metric">
+      AI-Driven
+     </div>
+     <div class="proof-label">
+      BuildGhost R&amp;D Lab
+     </div>
+     <div class="proof-description">
+      Pioneering next-gen testing tools with AI-powered DOM crawlers and test suite generators to eliminate manual bottlenecks.
+     </div>
+    </div>
+   </div>
+  </section>
+  <section id="ai-assisted-qa">
+   <h2><span class="highlight" style="color:#fff">AI-Assisted QA:</span> <span style="color:#00ffc8">The Future of Testing</span></h2>
+   <p class="section-intro">I don't just use AI — I build testing workflows around it. AI is the strongest multiplier QA has had in decades, and I treat it like part of the toolchain.</p>
+   <input type="checkbox" id="aiAccordion" class="accordion-toggle">
+   <div class="proof-grid">
+    <div class="proof-card">
+     <div class="proof-label">AI-Powered DOM Crawling</div>
+     <div class="proof-description">Automated selector recommendations, structural analysis, and instant remediation for brittle tests.</div>
+    </div>
+    <div class="proof-card">
+     <div class="proof-label">Prompt-Driven Test Generation</div>
+     <div class="proof-description">Cypress, API, and mobile test scaffolds generated through controlled LLM prompts.</div>
+    </div>
+    <div class="proof-card accordion-extra-ai">
+     <div class="proof-label">LLM-Assisted Visual Diffing</div>
+     <div class="proof-description">AI-driven comparison and detection of UI drift with reduced false positives.</div>
+    </div>
+    <div class="proof-card accordion-extra-ai">
+     <div class="proof-label">Intelligent Flake Detection</div>
+     <div class="proof-description">Self-healing heuristics and automated flake categorization to stabilize pipelines.</div>
+    </div>
+    <label for="aiAccordion" class="accordion-toggle-label ai-toggle">
+     <span class="toggle-more">More AI Work</span>
+     <span class="toggle-less">Less AI Work</span>
+    </label>
+    <div class="proof-card accordion-extra-ai">
+     <div class="proof-label">AI Risk-Analysis for Sprints</div>
+     <div class="proof-description">Estimates risk hotspots across PRs and tickets before development even starts.</div>
+    </div>
+    <div class="proof-card accordion-extra-ai">
+     <div class="proof-label">Auto-Summaries for Failures</div>
+     <div class="proof-description">AI-generated debugging summaries handed directly to developers for faster triage.</div>
+    </div>
+    <div class="proof-card accordion-extra-ai">
+     <div class="proof-label">Test Case Grooming Automation</div>
+     <div class="proof-description">Automatic refinement, deduplication, and rewriting of test cases at scale.</div>
+    </div>
+    <div class="proof-card accordion-extra-ai">
+     <div class="proof-label">CI/CD Pipeline Codegen</div>
+     <div class="proof-description">AI-assisted creation of workflows, configs, and validation logic.</div>
+    </div>
+    <div class="proof-card accordion-extra-ai">
+     <div class="proof-label">TestGhost R&amp;D Lab</div>
+     <div class="proof-description">My ongoing research project exploring intelligent QA tooling and automated test creation.</div>
+    </div>
+   </div>
+  </section>
+  <div class="all-demos-modal" id="allDemosModal">
+   <div class="all-demos-content">
+    <button class="all-demos-close" id="closeAllDemos">✕</button>
+    <h2>All Demo Videos</h2>
+    <div class="demo-categories">
+     <button class="category-btn active" data-category="all">All Demos</button>
+     <button class="category-btn" data-category="automation">Automation</button>
+     <button class="category-btn" data-category="strategy">Strategy</button>
+     <button class="category-btn" data-category="cicd">CI/CD</button>
+     <button class="category-btn" data-category="api">API Testing</button>
+     <button class="category-btn" data-category="mobile">Mobile</button>
+    </div>
+    <div class="demo-grid" id="allDemosGrid"></div>
+   </div>
+  </div>
+  <section id="skills">
+  <h2>Skills That <span class="highlight">Matter</span></h2>
+  <p class="section-intro">These are the core skills behind my automation work. Each card connects directly to real production output shown beside it.</p>
+   <div class="panel-section">
+    <div class="skills-carousel-section">
+     <div class="carousel-wrapper">
+     <div class="skills-carousel" id="skillsCarousel"></div>
+      <div class="mobile-skill-cta">
+       <p>Curious about how these skills are used in the real world?</p>
+      </div>
+      <button class="view-all-skills-btn" id="viewAllSkillsBtn">Show All Skills</button>
+     </div>
+     <div class="terminal-panel">
+      <div class="terminal-header">
+       <div class="terminal-buttons">
+        <span class="terminal-btn red"></span>
+        <span class="terminal-btn yellow"></span>
+        <span class="terminal-btn green"></span>
+       </div>
+       <div class="terminal-title">
+        experience.log
+       </div>
+      </div>
+      <div class="terminal-body">
+       <div class="terminal-prompt">
+        root@portfolio:~$
+       </div>
+       <div class="terminal-output" id="terminalOutput"></div>
+       <div class="terminal-cursor">
+        _
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+  <div class="skills-modal" id="skillsModal">
+   <div class="skills-modal-content">
+    <button class="skills-modal-close" id="closeSkillsModal">✕</button>
+    <h2>Complete Skills Breakdown</h2>
+    <div class="modal-skill-section">
+     <h3>Test Automation</h3>
+     <h4>Skills:</h4>
+     <ul>
+      <li>Cypress (Expert-level)</li>
+      <li>Playwright</li>
+      <li>Selenium WebDriver</li>
+      <li>API Testing (REST/GraphQL)</li>
+      <li>Visual Regression Testing</li>
+      <li>E2E Test Architecture</li>
+     </ul>
+     <h4>How I Used These:</h4>
+     <p>Built expert-level Cypress automation from scratch at FloSports. Reduced test flakiness by 60% through smart waits, proper selectors, and retry logic. Architected E2E test suites that caught critical bugs before production. Also worked with Playwright and Selenium WebDriver for cross-browser testing. Implemented visual regression testing to catch UI bugs automatically.</p>
+    </div>
+    <div class="modal-skill-section">
+     <h3>CI/CD &amp; DevOps</h3>
+     <h4>Skills:</h4>
+     <ul>
+      <li>Jenkins Pipeline Optimization</li>
+      <li>Docker Containerization</li>
+      <li>GitHub Actions</li>
+      <li>Linux/Command Line</li>
+      <li>Test Parallelization</li>
+      <li>AWS Infrastructure</li>
+     </ul>
+     <h4>How I Used These:</h4>
+     <p>Achieved 14x faster regression testing by parallelizing test execution across Docker containers in Jenkins. What took 2 hours now runs in 8 minutes. Managed automation scripts in Linux-based CI/CD environments with command-line debugging. Built GitHub Actions workflows and AWS infrastructure for scalable test execution.</p>
+    </div>
+    <div class="modal-skill-section">
+     <h3>Programming</h3>
+     <h4>Skills:</h4>
+     <ul>
+      <li>JavaScript/TypeScript</li>
+      <li>Node.js</li>
+      <li>Python</li>
+      <li>SQL</li>
+      <li>Git Version Control</li>
+      <li>Code Review &amp; Refactoring</li>
+     </ul>
+     <h4>How I Used These:</h4>
+     <p>Expert in JavaScript/TypeScript for test automation. Built Node.js test frameworks and Python scripts for data validation. Wrote SQL queries for database testing. Proficient in Git version control and code review processes. Refactored legacy test code to improve maintainability and reduce technical debt.</p>
+    </div>
+    <div class="modal-skill-section">
+     <h3>QA Strategy &amp; Leadership</h3>
+     <h4>Skills:</h4>
+     <ul>
+      <li>Shift-Left Testing</li>
+      <li>Test Strategy Design</li>
+      <li>Risk-Based Testing</li>
+      <li>Team Mentorship &amp; Training</li>
+      <li>Guild Leadership</li>
+      <li>Process Documentation</li>
+     </ul>
+     <h4>How I Used These:</h4>
+     <p>Founded and led Shift-Left Guild for 5 years, teaching devs and PMs to embed QA in early-stage design. Built a self-sufficient quality culture that doesn't rely on QA gatekeeping. Designed "QA-SHADOW-OPS" quarterly cross-training program to eliminate knowledge silos across 3 teams. Created modular Cypress upskilling curriculum with video modules and capstone projects.</p>
+    </div>
+    <div class="modal-skill-section">
+     <h3>Tools &amp; Platforms</h3>
+     <h4>Skills:</h4>
+     <ul>
+      <li>Jira / Linear</li>
+      <li>Segment Analytics Validation</li>
+      <li>Stripe Payment Testing</li>
+      <li>Datadog Monitoring</li>
+      <li>Postman / Insomnia</li>
+      <li>BrowserStack / Sauce Labs</li>
+     </ul>
+     <h4>How I Used These:</h4>
+     <p>Led analytics integrity testing with Segment, validating event data accuracy across user flows. Oversaw critical payment funnel testing with Stripe validation. Used Jira/Linear for test planning, Datadog for monitoring, and Postman/Insomnia for API testing. Leveraged BrowserStack and Sauce Labs for cross-platform testing.</p>
+    </div>
+    <div class="modal-skill-section">
+     <h3>Emerging Tech &amp; R&amp;D</h3>
+     <h4>Skills:</h4>
+     <ul>
+      <li>AI-Assisted Testing</li>
+      <li>LLM Integration</li>
+      <li>Prompt Engineering</li>
+      <li>DOM Automation Tools</li>
+      <li>Test Generation AI</li>
+      <li>BuildGhost Lab Projects</li>
+     </ul>
+     <h4>How I Used These:</h4>
+     <p>Pioneering next-gen testing tools with AI-powered DOM crawlers and test suite generators. Experimenting with LLM integration for intelligent test generation. Developing prompt engineering techniques for AI-assisted testing. Building DOM automation tools to eliminate manual bottlenecks in test creation.</p>
+    </div>
+   </div>
+  </div>
+  <section id="experience">
+   <h2>Where I've <span class="highlight">Delivered</span></h2>
+   <p class="section-intro">9+ years building quality systems that scale, from Level 1 ER software to streaming sports platforms.</p>
+   <div class="experience-item">
+    <h3>Automation Architect / QA Lead / Senior QA Engineer</h3>
+    <div class="company">
+     FloSports
+    </div>
+    <div class="dates">
+     2016 - 2025 | Austin, TX
+    </div>
+    <ul>
+     <li>Founded and led Shift-Left Guild for 5 years, teaching devs and PMs to embed QA in early-stage design</li>
+     <li>Founded org-wide QA Guild for 5+ years, mentoring QA engineers on automation, CI/CD, and test strategy</li>
+     <li>Designed "QA-SHADOW-OPS" quarterly cross-training program to eliminate knowledge silos across 3 teams</li>
+     <li>Reduced test flakiness by 60% through Cypress framework optimization and smart retry logic</li>
+     <li>Achieved 14x faster regression testing via parallelization and CI/CD pipeline improvements</li>
+     <li>Owned end-of-sprint release validation with 100% accuracy and zero production rollbacks</li>
+     <li>Managed automation scripts in Linux-based CI/CD environments (Jenkins/Docker) with command-line debugging</li>
+     <li>Led analytics integrity testing, validating Segment event data accuracy across user flows</li>
+     <li>Oversaw critical payment funnel testing with Stripe validation and A/B experiment stability</li>
+     <li>Created modular Cypress upskilling curriculum with video modules, code challenges, and capstone projects</li>
+     <li>Architected "Standard Operating Procedures" library, transforming tribal knowledge into searchable guides</li>
+    </ul>
+   </div>
+   <div class="experience-item">
+    <h3>Lab QA Compliance &amp; ER Technician</h3>
+    <div class="company">
+     Seton Healthcare | Neighbors Emergency
+    </div>
+    <div class="dates">
+     2007 - 2016 | Austin, TX
+    </div>
+    <ul>
+     <li>Excelled in high-stakes Level 1 ER environment, executing critical tasks with 100% precision under pressure</li>
+     <li>Maintained critical QA standards for patient-facing software and lab equipment in federally regulated environment</li>
+     <li>Developed and executed test protocols for hospital software systems, mirroring software QA lifecycle practices</li>
+     <li>Led root-cause analysis for operational and software incidents, coordinating with cross-functional teams</li>
+    </ul>
+   </div>
+  </section>
+  <section id="contact">
+   <h2>Let's <span class="highlight">Talk</span></h2>
+   <div class="contact-content">
+    <p>Interested in discussing QA strategy, automation architecture, or opportunities to build quality-first engineering cultures? Hit me up.</p>
+    <div class="contact-links">
+     <a href="mailto:your.email@example.com" id="email-link" class="contact-link" target="_blank" rel="noopener noreferrer">📧 Email</a>
+     <a href="https://linkedin.com/in/yourprofile" id="linkedin-link" class="contact-link" target="_blank" rel="noopener noreferrer">💼 LinkedIn</a>
+     <a href="https://github.com/yourusername" id="github-link" class="contact-link" target="_blank" rel="noopener noreferrer">💻 GitHub</a>
+    </div>
+   </div>
+  </section>
+  <footer>
+   <p>© 2025 <span id="footer-name">Mark Rosenthal</span> | Built with automation in mind</p>
+  </footer>
+  <div class="video-modal" id="videoModal">
+   <div class="video-container">
+    <button class="video-close" id="closeVideo">✕</button>
+    <iframe id="videoPlayer" class="video-player" src="" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+   </div>
+  </div>
+  <script>
+    // Configuration
+    const defaultConfig = {
+      name: "Mark Rosenthal",
+      hero_headline: "I build automation that actually works",
+      hero_subtext: "And I lead teams to stop treating QA like an afterthought. 9+ years turning flaky tests into reliable systems, manual testers into automation engineers, and building quality-first cultures through guild leadership.",
+      email: "your.email@example.com",
+      linkedin: "https://linkedin.com/in/yourprofile",
+      github: "https://github.com/yourusername"
+    };
+
+    // Demo data
+    const demoData = [
+      {
+        category: 'automation',
+        video: 'https://www.loom.com/embed/YOUR_VIDEO_ID_1',
+        title: 'Netflix Automation Demo',
+        description: 'Full-stack Cypress automation showing advanced patterns, API testing, and visual regression.',
+        tags: ['Cypress', 'API', 'Visual Testing']
+      },
+      {
+        category: 'strategy',
+        video: 'https://www.loom.com/embed/YOUR_VIDEO_ID_2',
+        title: 'Shift-Left Strategy',
+        description: 'How to embed QA in early-stage design and build a self-sufficient quality culture.',
+        tags: ['Strategy', 'Shift-Left', 'Culture']
+      },
+      {
+        category: 'cicd',
+        video: 'https://www.loom.com/embed/YOUR_VIDEO_ID_3',
+        title: 'CI/CD Pipeline Deep Dive',
+        description: 'Architecting test automation pipelines that scale with parallelization and smart retry logic.',
+        tags: ['Jenkins', 'Docker', 'Parallelization']
+      },
+      {
+        category: 'api',
+        video: 'https://www.loom.com/embed/YOUR_VIDEO_ID_4',
+        title: 'API Testing Tactics',
+        description: 'REST and GraphQL testing strategies that catch issues before they hit the UI.',
+        tags: ['REST', 'GraphQL', 'Postman']
+      },
+      {
+        category: 'mobile',
+        video: 'https://www.loom.com/embed/YOUR_VIDEO_ID_5',
+        title: 'Mobile Testing Methods',
+        description: 'Cross-platform mobile automation strategies for iOS and Android.',
+        tags: ['Mobile', 'iOS', 'Android']
+      },
+      {
+        category: 'automation',
+        video: 'https://www.loom.com/embed/YOUR_VIDEO_ID_6',
+        title: 'BuildGhost AI Tools7',
+        description: 'Next-gen AI-powered testing tools: DOM crawler for auto-tagging and AI test suite generator.',
+        tags: ['AI/ML', 'DOM Automation', 'R&D']
+      }
+    ];
+
+    // Skills data
+    const skillsData = [
+      {
+        title: 'Test Automation',
+        skills: [
+          'Cypress (Expert-level)',
+          'Playwright',
+          'Selenium WebDriver',
+          'API Testing (REST/GraphQL)',
+          'Visual Regression Testing',
+          'E2E Test Architecture'
+        ],
+        experience: `> Initializing Cypress framework...
+> Loading test suite architecture...
+
+Built expert-level Cypress automation from scratch at FloSports. Reduced test flakiness by 60% through smart waits, proper selectors, and retry logic. Architected E2E test suites that caught critical bugs before production.
+
+Also worked with Playwright and Selenium WebDriver for cross-browser testing. Implemented visual regression testing to catch UI bugs automatically.
+
+> Status: EXPERT LEVEL`
+      },
+      {
+        title: 'CI/CD & DevOps',
+        skills: [
+          'Jenkins Pipeline Optimization',
+          'Docker Containerization',
+          'GitHub Actions',
+          'Linux/Command Line',
+          'Test Parallelization',
+          'AWS Infrastructure'
+        ],
+        experience: `> Connecting to Jenkins pipeline...
+> Optimizing Docker containers...
+
+Achieved 14x faster regression testing by parallelizing test execution across Docker containers in Jenkins. What took 2 hours now runs in 8 minutes.
+
+Managed automation scripts in Linux-based CI/CD environments with command-line debugging. Built GitHub Actions workflows and AWS infrastructure for scalable test execution.
+
+> Status: PRODUCTION READY`
+      },
+      {
+        title: 'Programming',
+        skills: [
+          'JavaScript/TypeScript',
+          'Node.js',
+          'Python',
+          'SQL',
+          'Git Version Control',
+          'Code Review & Refactoring'
+        ],
+        experience: `> Compiling code review...
+> Running static analysis...
+
+Expert in JavaScript/TypeScript for test automation. Built Node.js test frameworks and Python scripts for data validation. Wrote SQL queries for database testing.
+
+Proficient in Git version control and code review processes. Refactored legacy test code to improve maintainability and reduce technical debt.
+
+> Status: CODE QUALITY APPROVED`
+      },
+      {
+        title: 'QA Strategy & Leadership',
+        skills: [
+          'Shift-Left Testing',
+          'Test Strategy Design',
+          'Risk-Based Testing',
+          'Team Mentorship & Training',
+          'Guild Leadership',
+          'Process Documentation'
+        ],
+        experience: `> Loading shift-left methodology...
+> Initializing guild leadership protocols...
+
+Founded and led Shift-Left Guild for 5 years, teaching devs and PMs to embed QA in early-stage design. Built a self-sufficient quality culture that doesn't rely on QA gatekeeping.
+
+Designed "QA-SHADOW-OPS" quarterly cross-training program to eliminate knowledge silos across 3 teams. Created modular Cypress upskilling curriculum with video modules and capstone projects.
+
+> Status: CULTURE TRANSFORMED`
+      },
+      {
+        title: 'Tools & Platforms',
+        skills: [
+          'Jira / Linear',
+          'Segment Analytics Validation',
+          'Stripe Payment Testing',
+          'Datadog Monitoring',
+          'Postman / Insomnia',
+          'BrowserStack / Sauce Labs'
+        ],
+        experience: `> Connecting to tool ecosystem...
+> Validating integrations...
+
+Led analytics integrity testing with Segment, validating event data accuracy across user flows. Oversaw critical payment funnel testing with Stripe validation.
+
+Used Jira/Linear for test planning, Datadog for monitoring, and Postman/Insomnia for API testing. Leveraged BrowserStack and Sauce Labs for cross-platform testing.
+
+> Status: FULLY INTEGRATED`
+      },
+      {
+        title: 'Emerging Tech & R&D',
+        skills: [
+          'AI-Assisted Testing',
+          'LLM Integration',
+          'Prompt Engineering',
+          'DOM Automation Tools',
+          'Test Generation AI',
+          'BuildGhost Lab Projects'
+        ],
+        experience: `> Initializing AI research lab...
+> Loading BuildGhost protocols...
+
+Pioneering next-gen testing tools with AI-powered DOM crawlers and test suite generators. Experimenting with LLM integration for intelligent test generation.
+
+Developing prompt engineering techniques for AI-assisted testing. Building DOM automation tools to eliminate manual bottlenecks in test creation.
+
+> Status: INNOVATION IN PROGRESS`
+      }
+    ];
+
+    // Initialize demo carousel
+    const demoCarousel = document.getElementById('demoCarousel');
+    const demoPrevBtn = document.getElementById('demoPrevBtn');
+    const demoNextBtn = document.getElementById('demoNextBtn');
+    let currentDemoIndex = 0;
+
+    function createDemoCard(demo) {
+      const card = document.createElement('div');
+      card.className = 'demo-card';
+      card.innerHTML = `
+        <div class="demo-thumbnail">
+          <div class="demo-placeholder">
+            <div class="demo-placeholder-text">[ DEMO VIDEO ]</div>
+            <div class="demo-placeholder-subtext">${demo.title}</div>
+          </div>
+        </div>
+        <div class="demo-info">
+          <div class="demo-title">${demo.title}</div>
+          <div class="demo-description">${demo.description}</div>
+          <div class="demo-tags">
+            ${demo.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+          </div>
+        </div>
+      `;
+      card.addEventListener('click', () => {
+        document.getElementById('videoPlayer').src = demo.video + '?autoplay=1';
+        document.getElementById('videoModal').classList.add('active');
+      });
+      return card;
+    }
+
+    // Render demo carousel
+    demoData.forEach(demo => {
+      demoCarousel.appendChild(createDemoCard(demo));
+    });
+
+    function updateDemoCarouselPosition() {
+      const cardWidth = 240 + 24;
+      demoCarousel.style.transform = `translateX(-${currentDemoIndex * cardWidth}px)`;
+    }
+
+    demoPrevBtn.addEventListener('click', () => {
+      if (currentDemoIndex > 0) {
+        currentDemoIndex--;
+        updateDemoCarouselPosition();
+      }
+    });
+
+    demoNextBtn.addEventListener('click', () => {
+      const maxIndex = Math.max(0, demoData.length - 3);
+      if (currentDemoIndex < maxIndex) {
+        currentDemoIndex++;
+        updateDemoCarouselPosition();
+      }
+    });
+
+    // All Demos Modal
+    const allDemosModal = document.getElementById('allDemosModal');
+    const seeAllDemosBtn = document.getElementById('seeAllDemosBtn');
+    const closeAllDemos = document.getElementById('closeAllDemos');
+    const allDemosGrid = document.getElementById('allDemosGrid');
+
+    function renderAllDemosGrid(demos) {
+      allDemosGrid.innerHTML = '';
+      demos.forEach(demo => {
+        allDemosGrid.appendChild(createDemoCard(demo));
+      });
+    }
+
+    seeAllDemosBtn.addEventListener('click', () => {
+      allDemosModal.classList.add('active');
+      renderAllDemosGrid(demoData);
+    });
+
+    closeAllDemos.addEventListener('click', () => {
+      allDemosModal.classList.remove('active');
+    });
+
+    allDemosModal.addEventListener('click', (e) => {
+      if (e.target === allDemosModal) {
+        allDemosModal.classList.remove('active');
+      }
+    });
+
+    // Category filtering
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const category = btn.dataset.category;
+        
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filteredDemos = category === 'all' 
+          ? demoData 
+          : demoData.filter(demo => demo.category === category);
+        
+        renderAllDemosGrid(filteredDemos);
+      });
+    });
+
+    // Skills Carousel
+    const skillsCarousel = document.getElementById('skillsCarousel');
+    const terminalOutput = document.getElementById('terminalOutput');
+    const skillsModal = document.getElementById('skillsModal');
+    const viewAllSkillsBtn = document.getElementById('viewAllSkillsBtn');
+    const mobileSkillsCtaButton = document.getElementById('mobileSkillsCtaButton');
+    const closeSkillsModal = document.getElementById('closeSkillsModal');
+    let currentSkillIndex = 0;
+    let typingTimeout;
+
+    skillsData.forEach((skill, index) => {
+      const card = document.createElement('div');
+      card.className = 'skill-card';
+      card.dataset.index = index;
+      card.innerHTML = `
+        <h3>${skill.title}</h3>
+        <ul>
+          ${skill.skills.map(s => `<li>${s}</li>`).join('')}
+        </ul>
+      `;
+      skillsCarousel.appendChild(card);
+    });
+
+    const skillCards = Array.from(document.querySelectorAll('.skill-card'));
+
+    function typeText(text, element, speed = 12) {
+      if (!element) return;
+      element.textContent = '';
+      let index = 0;
+      function type() {
+        if (index < text.length) {
+          element.textContent += text.charAt(index);
+          index++;
+          typingTimeout = setTimeout(type, speed);
+        }
+      }
+      type();
+    }
+
+    function updateCarousel() {
+      const total = skillCards.length;
+      skillCards.forEach((card, index) => {
+        card.classList.remove('center', 'left', 'right', 'hidden');
+        card.style.transform = '';
+        card.style.transition = '';
+
+        if (index === currentSkillIndex) {
+          card.classList.add('center');
+        } else if (index === (currentSkillIndex - 1 + total) % total) {
+          card.classList.add('left');
+        } else if (index === (currentSkillIndex + 1) % total) {
+          card.classList.add('right');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      clearTimeout(typingTimeout);
+      typeText(skillsData[currentSkillIndex].experience, terminalOutput, 12);
+    }
+
+    function nextSlide() {
+      currentSkillIndex = (currentSkillIndex + 1) % skillCards.length;
+      updateCarousel();
+    }
+
+    function prevSlide() {
+      currentSkillIndex = (currentSkillIndex - 1 + skillCards.length) % skillCards.length;
+      updateCarousel();
+    }
+
+    let isDragging = false;
+    let startX = 0;
+    let currentX = 0;
+    let lastX = 0;
+    let lastTime = 0;
+    let velocityX = 0;
+    const distanceThreshold = 70;
+    const velocityThreshold = 0.45;
+
+    function getCenterCard() {
+      return document.querySelector('.skill-card.center');
+    }
+
+    function applyDragTransform(offsetX) {
+      const centerCard = getCenterCard();
+      if (!centerCard) return;
+      const tilt = offsetX / 90;
+      const depth = Math.min(22, Math.abs(offsetX) * 0.04);
+      centerCard.style.transform = `translateX(${offsetX}px) translateY(${depth * 0.12}px) rotate(${tilt}deg)`;
+    }
+
+    function handlePointerDown(x) {
+      const centerCard = getCenterCard();
+      if (!centerCard) return;
+      isDragging = true;
+      startX = x;
+      currentX = 0;
+      lastX = 0;
+      velocityX = 0;
+      lastTime = Date.now();
+      centerCard.style.transition = 'none';
+    }
+
+    function handlePointerMove(x) {
+      if (!isDragging) return;
+      const delta = x - startX;
+      const now = Date.now();
+      velocityX = (delta - lastX) / Math.max(1, now - lastTime);
+      lastX = delta;
+      lastTime = now;
+      currentX = delta;
+      applyDragTransform(delta);
+    }
+
+    function handlePointerUp() {
+      if (!isDragging) return;
+      const centerCard = getCenterCard();
+      isDragging = false;
+      const shouldAdvance = Math.abs(currentX) > distanceThreshold || Math.abs(velocityX) > velocityThreshold;
+
+      if (centerCard) {
+        centerCard.style.transition = 'transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1)';
+      }
+
+      if (shouldAdvance) {
+        if (currentX < 0 || velocityX < 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      } else if (centerCard) {
+        centerCard.style.transform = '';
+        setTimeout(() => {
+          centerCard.style.transition = '';
+        }, 350);
+      }
+
+      currentX = 0;
+      velocityX = 0;
+    }
+
+    skillsCarousel.addEventListener('mousedown', (e) => {
+      handlePointerDown(e.clientX);
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      handlePointerMove(e.clientX);
+    });
+
+    document.addEventListener('mouseup', handlePointerUp);
+
+    skillsCarousel.addEventListener('touchstart', (e) => {
+      handlePointerDown(e.touches[0].clientX);
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (e) => {
+      handlePointerMove(e.touches[0].clientX);
+    }, { passive: true });
+
+    document.addEventListener('touchend', handlePointerUp);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevSlide();
+      }
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextSlide();
+      }
+    });
+
+    viewAllSkillsBtn.addEventListener('click', () => {
+      skillsModal.classList.add('active');
+    });
+
+    if (mobileSkillsCtaButton) {
+      mobileSkillsCtaButton.addEventListener('click', () => {
+        skillsModal.classList.add('active');
+      });
+    }
+
+    closeSkillsModal.addEventListener('click', () => {
+      skillsModal.classList.remove('active');
+    });
+
+    skillsModal.addEventListener('click', (e) => {
+      if (e.target === skillsModal) {
+        skillsModal.classList.remove('active');
+      }
+    });
+
+    updateCarousel();
+
+    // Smooth scroll toggles to section top
+    const proofToggleLabel = document.querySelector('.proof-toggle');
+    const aiToggleLabel = document.querySelector('.ai-toggle');
+
+    function scrollSectionIntoView(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    if (proofToggleLabel) {
+      proofToggleLabel.addEventListener('click', () => {
+        setTimeout(() => scrollSectionIntoView('proof'), 150);
+      });
+    }
+
+    if (aiToggleLabel) {
+      aiToggleLabel.addEventListener('click', () => {
+        setTimeout(() => scrollSectionIntoView('ai-assisted-qa'), 150);
+      });
+    }
+
+    // Video modal
+    const videoModal = document.getElementById('videoModal');
+    const videoPlayer = document.getElementById('videoPlayer');
+    const closeVideo = document.getElementById('closeVideo');
+
+    closeVideo.addEventListener('click', () => {
+      videoModal.classList.remove('active');
+      videoPlayer.src = '';
+    });
+
+    videoModal.addEventListener('click', (e) => {
+      if (e.target === videoModal) {
+        videoModal.classList.remove('active');
+        videoPlayer.src = '';
+      }
+    });
+
+    // Initialize
+    updateCarousel();
+
+    // Config change handler
+    async function onConfigChange(config) {
+      const name = config.name || defaultConfig.name;
+      const headline = config.hero_headline || defaultConfig.hero_headline;
+      const subtext = config.hero_subtext || defaultConfig.hero_subtext;
+      const email = config.email || defaultConfig.email;
+      const linkedin = config.linkedin || defaultConfig.linkedin;
+      const github = config.github || defaultConfig.github;
+
+      document.getElementById('hero-headline').innerHTML = headline.replace(/actually works/g, '<span class="highlight">actually works</span>');
+      document.getElementById('hero-subtext').textContent = subtext;
+      document.getElementById('footer-name').textContent = name;
+      document.getElementById('email-link').href = `mailto:${email}`;
+      document.getElementById('linkedin-link').href = linkedin;
+      document.getElementById('github-link').href = github;
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["name", config.name || defaultConfig.name],
+          ["hero_headline", config.hero_headline || defaultConfig.hero_headline],
+          ["hero_subtext", config.hero_subtext || defaultConfig.hero_subtext],
+          ["email", config.email || defaultConfig.email],
+          ["linkedin", config.linkedin || defaultConfig.linkedin],
+          ["github", config.github || defaultConfig.github]
+        ])
+      });
+    }
+  </script>
+  <script>
+    (function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a791e80c31a6a22',t:'MTc2NDY2MDYyOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();
+  </script>
+  <script>
+    // Fade-in intro video when ready
+    const introVideo = document.querySelector('.intro-gif');
+
+    if (introVideo) {
+      introVideo.muted = true;
+      const showIntroVideo = () => {
+        introVideo.classList.add('is-ready');
+        introVideo.play();
+      };
+
+      if (introVideo.readyState >= 3) {
+        showIntroVideo();
+      } else {
+        introVideo.addEventListener('loadeddata', showIntroVideo, { once: true });
+        introVideo.addEventListener('canplaythrough', showIntroVideo, { once: true });
+      }
+    }
+  </script>
+ </body>
+</html>
