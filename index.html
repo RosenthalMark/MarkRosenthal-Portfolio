@@ -2378,7 +2378,7 @@
   <div class="video-modal" id="videoModal">
    <div class="video-container">
     <button class="video-close" id="closeVideo">✕</button>
-    <iframe id="videoPlayer" class="video-player" src="" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    <div id="videoPlayerMount"></div>
    </div>
   </div>
   <script>
@@ -2581,8 +2581,38 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
         </div>
       `;
       card.addEventListener('click', () => {
-        document.getElementById('videoPlayer').src = demo.video + '?autoplay=1';
-        document.getElementById('videoModal').classList.add('active');
+        const videoModal = document.getElementById('videoModal');
+        const mount = document.getElementById('videoPlayerMount');
+        const videoSrc = demo.video;
+        if (!videoModal || !mount || !videoSrc) return;
+
+        clearVideoPlayer();
+
+        if (videoSrc.trim().toLowerCase().endsWith('.mp4')) {
+          const videoEl = document.createElement('video');
+          videoEl.className = 'video-player';
+          videoEl.src = videoSrc;
+          videoEl.autoplay = true;
+          videoEl.muted = true;
+          videoEl.loop = true;
+          videoEl.playsInline = true;
+          videoEl.preload = 'auto';
+          videoEl.controls = false;
+          videoEl.controlsList = 'nodownload noplaybackrate noremoteplayback';
+          videoEl.disablePictureInPicture = true;
+          mount.appendChild(videoEl);
+          videoEl.play().catch(() => {});
+        } else {
+          const iframe = document.createElement('iframe');
+          iframe.className = 'video-player';
+          iframe.src = videoSrc.includes('?') ? videoSrc : `${videoSrc}?autoplay=1`;
+          iframe.frameBorder = '0';
+          iframe.allow = 'autoplay; fullscreen';
+          iframe.allowFullscreen = true;
+          mount.appendChild(iframe);
+        }
+
+        videoModal.classList.add('active');
       });
       return card;
     }
@@ -2875,18 +2905,29 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
 
     // Video modal
     const videoModal = document.getElementById('videoModal');
-    const videoPlayer = document.getElementById('videoPlayer');
+    const videoPlayerMount = document.getElementById('videoPlayerMount');
     const closeVideo = document.getElementById('closeVideo');
+
+    function clearVideoPlayer() {
+      if (!videoPlayerMount) return;
+      const videoEl = videoPlayerMount.querySelector('video');
+      if (videoEl) {
+        videoEl.pause();
+        videoEl.removeAttribute('src');
+        videoEl.load();
+      }
+      videoPlayerMount.innerHTML = '';
+    }
 
     closeVideo.addEventListener('click', () => {
       videoModal.classList.remove('active');
-      videoPlayer.src = '';
+      clearVideoPlayer();
     });
 
     videoModal.addEventListener('click', (e) => {
       if (e.target === videoModal) {
         videoModal.classList.remove('active');
-        videoPlayer.src = '';
+        clearVideoPlayer();
       }
     });
 
