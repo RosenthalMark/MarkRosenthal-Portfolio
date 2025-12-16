@@ -90,6 +90,14 @@
       width: 100%;
     }
 
+    #resumeNavLink {
+      color: #ffd400;
+    }
+
+    #resumeNavLink:hover {
+      color: #ffd400;
+    }
+
     /* Hero Section */
     .hero {
       min-height: 100%;
@@ -777,6 +785,119 @@
       box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55);
     }
 
+    /* Resume Modal */
+    .resume-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2500;
+      padding: 1.5rem;
+    }
+
+    .resume-overlay.active {
+      display: flex;
+    }
+
+    .resume-modal {
+      background: #0b0f0f;
+      border: 1px solid rgba(255, 212, 0, 0.35);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 212, 0, 0.12);
+      border-radius: 14px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .resume-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      gap: 1rem;
+      background: rgba(255, 212, 0, 0.06);
+      border-bottom: 1px solid rgba(255, 212, 0, 0.18);
+    }
+
+    .resume-modal-title {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #ffd400;
+      letter-spacing: 0.5px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .resume-modal-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .resume-modal-actions a,
+    .resume-modal-actions button {
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 212, 0, 0.9);
+      background: rgba(255, 212, 0, 0.14);
+      color: #ffd400;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .resume-modal-actions button {
+      background: rgba(255, 212, 0, 0.1);
+    }
+
+    .resume-modal-actions a:hover,
+    .resume-modal-actions button:hover {
+      box-shadow: 0 10px 22px rgba(255, 212, 0, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .resume-close {
+      background: none;
+      border: none;
+      color: #ffd400;
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding: 0.2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+    }
+
+    .resume-close:hover {
+      background: rgba(255, 212, 0, 0.12);
+    }
+
+    .resume-modal-body {
+      padding: 1rem;
+      flex: 1;
+      overflow: hidden;
+      background: #0d0f11;
+    }
+
+    .resume-frame {
+      width: 100%;
+      height: 80vh;
+      border: none;
+      border-radius: 10px;
+      background: #0d0f11;
+      box-shadow: inset 0 0 0 1px rgba(255, 212, 0, 0.08);
+    }
+
     /* Proof Section */
     .proof-grid {
       display: grid;
@@ -870,6 +991,10 @@
       grid-template-columns: 1.2fr 1fr;
       gap: 2.5rem;
       align-items: stretch;
+    }
+
+    .mobile-skills-wrapper {
+      display: none;
     }
 
     .carousel-wrapper {
@@ -1735,67 +1860,74 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 1.25rem;
+        gap: 0.75rem;
       }
 
       .carousel-wrapper {
         order: 1;
-        width: 100%;
+        width: 100vw;
+        margin-left: calc(-1 * (100vw - 100%) / 2);
         padding: 0;
         overflow: visible;
         height: auto;
-        min-height: 380px;
+        min-height: 300px;
       }
 
       .skills-carousel {
         position: relative;
-        width: 100%;
+        width: 100vw;
         height: auto;
-        min-height: 320px;
-        display: flex;
+        min-height: 0;
+        display: none;
         align-items: center;
         justify-content: center;
-        padding-top: 1.25rem;
-        overflow: visible;
+        padding-top: 0;
+        overflow: hidden;
+      }
+
+      .mobile-skills-wrapper {
+        display: block;
+        width: 100vw;
+        margin-left: calc(-1 * (100vw - 100%) / 2);
+        overflow: hidden;
+        padding: 0;
+      }
+
+      .mobile-skills-track {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: 0.25rem 12px 0.6rem;
+      }
+
+      .mobile-skill-slide {
+        flex: 0 0 78vw;
+        max-width: 360px;
+        scroll-snap-align: center;
+        display: flex;
+        justify-content: center;
+      }
+
+      .mobile-skill-slide img {
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
+        object-fit: contain;
       }
 
       .mobile-skill-cta {
         display: block;
         text-align: center;
-        margin-top: 1.75rem;
+        margin: 0.5rem auto 0.4rem;
+        padding: 0 1.25rem;
+        max-width: 720px;
       }
 
       .skill-card {
-        width: 78vw;
-        max-width: 300px;
-        min-height: 220px;
-        padding: 0.9rem 1rem 1rem;
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        opacity: 0;
-        pointer-events: none;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.45);
-        cursor: grab;
-        overflow: hidden;
-        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
-      }
-
-      .skill-card h3 {
-        font-size: 1rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .skill-card ul {
-        max-height: 95px;
-        overflow: hidden;
-        margin-bottom: 0;
-      }
-
-      .skill-card li {
-        font-size: 0.76rem;
-        padding: 0.22rem 0;
+        display: none;
       }
 
       .terminal-panel {
@@ -1978,6 +2110,7 @@
     <li><a href="#skills">Skills</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><a href="#" id="resumeNavLink" style="color:#ffd400;">RESUME</a></li>
    </ul>
   </nav>
   <section id="home" class="hero">
@@ -2197,15 +2330,18 @@
   <section id="skills">
   <h2>Skills That <span class="highlight">Matter</span></h2>
   <p class="section-intro">These are the core skills behind my automation work. Each card connects directly to real production output shown beside it.</p>
-   <div class="panel-section">
-    <div class="skills-carousel-section">
-     <div class="carousel-wrapper">
-     <div class="skills-carousel" id="skillsCarousel"></div>
-      <div class="mobile-skill-cta">
-       <p>Curious about how these skills are used in the real world?</p>
-      </div>
-      <button class="view-all-skills-btn" id="viewAllSkillsBtn">Show All Skills</button>
-     </div>
+     <div class="panel-section">
+      <div class="skills-carousel-section">
+       <div class="carousel-wrapper">
+       <div class="skills-carousel" id="skillsCarousel"></div>
+        <div class="mobile-skills-wrapper">
+         <div class="mobile-skills-track" id="mobileSkillsTrack"></div>
+        </div>
+        <div class="mobile-skill-cta">
+         <p>Curious about how these skills are used in the real world?</p>
+        </div>
+        <button class="view-all-skills-btn" id="viewAllSkillsBtn">Show All Skills</button>
+       </div>
      <div class="terminal-panel">
       <div class="terminal-header">
        <div class="terminal-buttons">
@@ -2379,6 +2515,21 @@
    <div class="video-container">
     <button class="video-close" id="closeVideo">✕</button>
     <div id="videoPlayerMount"></div>
+   </div>
+  </div>
+  <div class="resume-overlay" id="resumeOverlay">
+   <div class="resume-modal" role="dialog" aria-modal="true" aria-labelledby="resumeModalTitle">
+    <div class="resume-modal-header">
+     <h3 class="resume-modal-title" id="resumeModalTitle">Resume</h3>
+     <div class="resume-modal-actions">
+      <a id="resumeDownload" href="assets/resume/MarkRosenthalResume.pdf" download>Download</a>
+      <button id="resumePrint">Print</button>
+      <button class="resume-close" id="closeResume" aria-label="Close resume modal">✕</button>
+     </div>
+    </div>
+    <div class="resume-modal-body">
+     <iframe class="resume-frame" id="resumeFrame" src="assets/resume/MarkRosenthalResume.pdf" title="Mark Rosenthal Resume PDF"></iframe>
+    </div>
    </div>
   </div>
   <script>
@@ -2591,7 +2742,7 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
         if (videoSrc.trim().toLowerCase().endsWith('.mp4')) {
           const videoEl = document.createElement('video');
           videoEl.className = 'video-player';
-          videoEl.src = videoSrc;
+          videoEl.src = '/assets/videoPlaceholder/comingSoon.mp4';
           videoEl.autoplay = true;
           videoEl.muted = true;
           videoEl.loop = true;
@@ -2688,6 +2839,7 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
 
     // Skills Carousel
     const skillsCarousel = document.getElementById('skillsCarousel');
+    const mobileSkillsTrack = document.getElementById('mobileSkillsTrack');
     const terminalOutput = document.getElementById('terminalOutput');
     const skillsModal = document.getElementById('skillsModal');
     const viewAllSkillsBtn = document.getElementById('viewAllSkillsBtn');
@@ -2710,6 +2862,75 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
     });
 
     const skillCards = Array.from(document.querySelectorAll('.skill-card'));
+    const mobileSkillsImages = Array.from({ length: 9 }, (_, idx) => `assets/skillCards/${idx + 1}.png`);
+    const mobileSkillsQuery = window.matchMedia('(max-width: 768px)');
+    let mobileSlideWidth = 0;
+
+    function buildMobileSkillsTrack() {
+      if (!mobileSkillsTrack) return;
+      mobileSkillsTrack.innerHTML = '';
+      const fragment = document.createDocumentFragment();
+      const slides = [...mobileSkillsImages, ...mobileSkillsImages, ...mobileSkillsImages];
+      slides.forEach((src, idx) => {
+        const slide = document.createElement('div');
+        slide.className = 'mobile-skill-slide';
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `Skill card ${((idx % mobileSkillsImages.length) + 1)}`;
+        slide.appendChild(img);
+        fragment.appendChild(slide);
+      });
+      mobileSkillsTrack.appendChild(fragment);
+      requestAnimationFrame(() => {
+        const firstSlide = mobileSkillsTrack.querySelector('.mobile-skill-slide');
+        if (!firstSlide) return;
+        const gap = parseFloat(getComputedStyle(mobileSkillsTrack).columnGap || getComputedStyle(mobileSkillsTrack).gap || '0');
+        mobileSlideWidth = firstSlide.getBoundingClientRect().width + gap;
+        mobileSkillsTrack.scrollLeft = mobileSlideWidth * mobileSkillsImages.length;
+      });
+    }
+
+    function handleMobileSkillsLoop() {
+      if (!mobileSkillsTrack || !mobileSlideWidth) return;
+      const totalSpan = mobileSlideWidth * mobileSkillsImages.length;
+      const maxSpan = totalSpan * 3;
+      if (mobileSkillsTrack.scrollLeft <= mobileSlideWidth * 0.5) {
+        mobileSkillsTrack.scrollLeft += totalSpan;
+      } else if (mobileSkillsTrack.scrollLeft >= maxSpan - mobileSlideWidth * 0.5) {
+        mobileSkillsTrack.scrollLeft -= totalSpan;
+      }
+    }
+
+    function snapMobileSkills() {
+      if (!mobileSkillsTrack || !mobileSlideWidth) return;
+      const target = Math.round(mobileSkillsTrack.scrollLeft / mobileSlideWidth) * mobileSlideWidth;
+      mobileSkillsTrack.scrollTo({ left: target, behavior: 'smooth' });
+    }
+
+    function disableMobileSkills() {
+      if (!mobileSkillsTrack) return;
+      mobileSkillsTrack.removeEventListener('scroll', handleMobileSkillsLoop);
+      mobileSkillsTrack.removeEventListener('touchend', snapMobileSkills);
+      mobileSkillsTrack.removeEventListener('mouseup', snapMobileSkills);
+      mobileSkillsTrack.innerHTML = '';
+      mobileSlideWidth = 0;
+    }
+
+    function enableMobileSkills() {
+      if (!mobileSkillsTrack || !mobileSkillsQuery.matches) return;
+      buildMobileSkillsTrack();
+      mobileSkillsTrack.addEventListener('scroll', handleMobileSkillsLoop, { passive: true });
+      mobileSkillsTrack.addEventListener('touchend', snapMobileSkills, { passive: true });
+      mobileSkillsTrack.addEventListener('mouseup', snapMobileSkills);
+    }
+
+    function updateMobileSkillsMode() {
+      if (mobileSkillsQuery.matches) {
+        enableMobileSkills();
+      } else {
+        disableMobileSkills();
+      }
+    }
 
     function typeText(text, element, speed = 12) {
       if (!element) return;
@@ -2869,6 +3090,9 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
       });
     }
 
+    updateMobileSkillsMode();
+    mobileSkillsQuery.addEventListener('change', updateMobileSkillsMode);
+
     closeSkillsModal.addEventListener('click', () => {
       skillsModal.classList.remove('active');
     });
@@ -2911,10 +3135,14 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
     function clearVideoPlayer() {
       if (!videoPlayerMount) return;
       const videoEl = videoPlayerMount.querySelector('video');
+      const iframeEl = videoPlayerMount.querySelector('iframe');
       if (videoEl) {
         videoEl.pause();
         videoEl.removeAttribute('src');
         videoEl.load();
+      }
+      if (iframeEl) {
+        iframeEl.src = '';
       }
       videoPlayerMount.innerHTML = '';
     }
@@ -2930,6 +3158,60 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
         clearVideoPlayer();
       }
     });
+
+    // Resume modal
+    const resumeOverlay = document.getElementById('resumeOverlay');
+    const resumeNavLink = document.getElementById('resumeNavLink');
+    const resumeFrame = document.getElementById('resumeFrame');
+    const resumeDownload = document.getElementById('resumeDownload');
+    const resumePrint = document.getElementById('resumePrint');
+    const closeResume = document.getElementById('closeResume');
+    const resumePdfSrc = 'assets/resume/MarkRosenthalResume.pdf';
+
+    function openResumeModal(e) {
+      if (e) e.preventDefault();
+      if (!resumeOverlay) return;
+      if (resumeFrame) {
+        resumeFrame.src = resumePdfSrc;
+      }
+      if (resumeDownload) {
+        resumeDownload.href = resumePdfSrc;
+      }
+      resumeOverlay.classList.add('active');
+    }
+
+    function closeResumeModal() {
+      if (!resumeOverlay) return;
+      resumeOverlay.classList.remove('active');
+      if (resumeFrame) {
+        resumeFrame.src = '';
+      }
+    }
+
+    if (resumeNavLink) {
+      resumeNavLink.addEventListener('click', openResumeModal);
+    }
+
+    if (closeResume) {
+      closeResume.addEventListener('click', closeResumeModal);
+    }
+
+    if (resumeOverlay) {
+      resumeOverlay.addEventListener('click', (e) => {
+        if (e.target === resumeOverlay) {
+          closeResumeModal();
+        }
+      });
+    }
+
+    if (resumePrint) {
+      resumePrint.addEventListener('click', () => {
+        if (resumeFrame && resumeFrame.contentWindow) {
+          resumeFrame.contentWindow.focus();
+          resumeFrame.contentWindow.print();
+        }
+      });
+    }
 
     // Initialize
     updateCarousel();
