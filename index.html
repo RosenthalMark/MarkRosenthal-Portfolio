@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QA Portfolio - Automation That Actually Works</title>
+  <meta property="og:title" content="QA Portfolio - Automation That Actually Works">
+  <meta property="og:description" content="And I lead teams to stop treating QA like an afterthought. 9+ years turning flaky tests into reliable systems, manual testers into automation engineers, and building quality-first cultures through guild leadership.">
+  <meta property="og:image" content="/assets/share/og-image.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="QA Portfolio - Automation That Actually Works">
+  <meta name="twitter:description" content="And I lead teams to stop treating QA like an afterthought. 9+ years turning flaky tests into reliable systems, manual testers into automation engineers, and building quality-first cultures through guild leadership.">
+  <meta name="twitter:image" content="/assets/share/og-image.png">
   <script src="/_sdk/element_sdk.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Anton&amp;display=swap" rel="stylesheet">
   <style>
@@ -255,6 +264,12 @@
       gap: 3rem;
       margin-top: 2rem;
       flex-wrap: wrap;
+    }
+
+    .hero-stats-visual {
+      display: none;
+      width: 100%;
+      height: auto;
     }
 
     .stat {
@@ -1579,6 +1594,82 @@
     }
 
     /* Responsive */
+    @media (min-width: 900px) {
+      .hero {
+        padding-bottom: 20px;
+      }
+
+      .hero-stats {
+        display: block;
+        width: 100%;
+      }
+
+      .hero-stats-visual {
+        display: block;
+        max-width: none;
+        width: 100vw;
+        margin-left: calc((100vw - 100%) / -2);
+        margin-right: calc((100vw - 100%) / -2);
+        opacity: 0;
+        transform-origin: 50% 50%;
+        transform: perspective(1200px) translateX(-48px) translateY(18px) translateZ(-120px) scale(1.06) rotateY(6deg) rotateX(4deg) rotateZ(-0.6deg);
+        filter: blur(10px) saturate(0.78) drop-shadow(0 32px 60px rgba(0, 255, 200, 0.22));
+        transition:
+          opacity 0.75s ease,
+          transform 1s cubic-bezier(0.2, 0.8, 0.25, 1),
+          filter 0.85s ease;
+        will-change: transform, opacity, filter;
+      }
+
+      .hero-stats-visual.is-visible {
+        opacity: 1;
+        transform: perspective(1200px) translateX(0) translateY(0) translateZ(0) scale(1) rotateY(0deg) rotateX(0deg) rotateZ(0deg);
+        filter: blur(0px) saturate(1.05) drop-shadow(0 28px 90px rgba(0, 255, 200, 0.28));
+      }
+
+      .reveal-target {
+        opacity: 1;
+        transform: none;
+        filter: none;
+        transition: opacity 0.35s ease;
+        will-change: opacity;
+      }
+
+      .reveal-target.is-visible {
+        opacity: 1;
+        transform: none;
+        filter: none;
+      }
+
+      .hero-stats .stat {
+        display: none;
+      }
+
+      .stat {
+        text-align: left;
+      }
+
+      .stat:nth-child(1) {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .stat:nth-child(2) {
+        grid-column: 1;
+        grid-row: 2;
+      }
+
+      .stat:nth-child(3) {
+        grid-column: 2;
+        grid-row: 2;
+      }
+
+      .stat-number {
+        font-size: 4.5rem;
+        line-height: 0.9;
+      }
+    }
+
     @media (max-width: 1024px) {
       .skills-carousel-section {
         grid-template-columns: 1fr;
@@ -1895,23 +1986,31 @@
 
       .mobile-skills-track {
         display: flex;
-        gap: 12px;
+        gap: 6px;
         overflow-x: auto;
-        scroll-snap-type: x mandatory;
+        scroll-snap-type: x proximity;
         -webkit-overflow-scrolling: touch;
-        padding: 0.25rem 12px 0.6rem;
+        padding: 0.5rem 12px 1rem;
+        scroll-padding-inline: 12px;
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 22%, #000 78%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0%, #000 22%, #000 78%, transparent 100%);
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
       }
 
       .mobile-skill-slide {
-        flex: 0 0 78vw;
-        max-width: 360px;
+        flex: 0 0 80vw;
+        max-width: 352px;
         scroll-snap-align: center;
+        scroll-snap-stop: always;
         display: flex;
         justify-content: center;
       }
 
       .mobile-skill-slide img {
-        width: 100%;
+        width: 96%;
         height: auto;
         border-radius: 12px;
         box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
@@ -1922,8 +2021,17 @@
         display: block;
         text-align: center;
         margin: 0.5rem auto 0.4rem;
-        padding: 0 1.25rem;
+        padding-left: calc(1.25rem + env(safe-area-inset-left));
+        padding-right: calc(1.25rem + env(safe-area-inset-right));
         max-width: 720px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .mobile-skill-cta p {
+        padding: 0.1rem 0.25rem;
+        line-height: 1.5;
+        overflow-wrap: anywhere;
       }
 
       .skill-card {
@@ -2047,6 +2155,13 @@
         display: none !important;
       }
 
+      #proof {
+        padding-top: 5px;
+      }
+      #ai-assisted-qa {
+        padding-top: 5px;
+      }
+
       .accordion-extra-proof,
       .accordion-extra-ai {
         max-height: none !important;
@@ -2090,7 +2205,22 @@
         display: none;
       }
     }
+
+    @media (min-width: 769px) {
+      .scroll-fade-target {
+        will-change: opacity;
+        transition: opacity 220ms ease-out;
+      }
+    }
   </style>
+  <script>
+    window.addEventListener('load', () => {
+      const ogUrlTag = document.querySelector('meta[property="og:url"]');
+      if (ogUrlTag && !ogUrlTag.getAttribute('content')) {
+        ogUrlTag.setAttribute('content', window.location.href);
+      }
+    });
+  </script>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
@@ -2141,6 +2271,7 @@
     <h1 id="hero-headline">I build automation that <span class="highlight">actually works</span></h1>
     <p class="hero-subtext" id="hero-subtext">And I lead teams to stop treating QA like an afterthought. 9+ years turning flaky tests into reliable systems, manual testers into automation engineers, and building quality-first cultures through guild leadership.</p>
     <div class="hero-stats">
+     <img class="hero-stats-visual" src="/assets/Hero/heroImage.png" alt="Automation results visualization">
      <div class="stat">
       <div class="stat-number">
        60%
@@ -2168,8 +2299,8 @@
     </div>
    </div>
   </section>
-  <section id="demos">
-   <div class="panel-section">
+  <section id="demos" class="reveal-target">
+   <div class="panel-section reveal-target">
     <h2>Demo <span class="highlight">Theater</span></h2>
     <p class="section-intro">Don't just take my word for it—watch me work. Here's a collection of automation demos, strategy breakdowns, and technical deep dives.</p>
     <div class="demo-carousel-wrapper">
@@ -2180,7 +2311,7 @@
     <button class="see-all-demos-btn" id="seeAllDemosBtn">See All Demos</button>
    </div>
   </section>
-  <section id="proof">
+  <section id="proof" class="reveal-target">
    <h2>The <span class="highlight">Proof</span></h2>
    <p class="section-intro">Numbers don't lie. Here's the measurable impact I've delivered.</p>
    <input type="checkbox" id="proofAccordion" class="accordion-toggle">
@@ -2265,7 +2396,7 @@
     </div>
    </div>
   </section>
-  <section id="ai-assisted-qa">
+  <section id="ai-assisted-qa" class="reveal-target">
    <h2><span class="highlight" style="color:#fff">AI-Assisted QA:</span> <span style="color:#00ffc8">The Future of Testing</span></h2>
    <p class="section-intro">I don't just use AI — I build testing workflows around it. AI is the strongest multiplier QA has had in decades, and I treat it like part of the toolchain.</p>
    <input type="checkbox" id="aiAccordion" class="accordion-toggle">
@@ -2327,7 +2458,7 @@
     <div class="demo-grid" id="allDemosGrid"></div>
    </div>
   </div>
-  <section id="skills">
+  <section id="skills" class="reveal-target">
   <h2>Skills That <span class="highlight">Matter</span></h2>
   <p class="section-intro">These are the core skills behind my automation work. Each card connects directly to real production output shown beside it.</p>
      <div class="panel-section">
@@ -2456,7 +2587,7 @@
     </div>
    </div>
   </div>
-  <section id="experience">
+  <section id="experience" class="reveal-target">
    <h2>Where I've <span class="highlight">Delivered</span></h2>
    <p class="section-intro">9+ years building quality systems that scale, from Level 1 ER software to streaming sports platforms.</p>
    <div class="experience-item">
@@ -2502,9 +2633,9 @@
    <div class="contact-content">
     <p>Interested in discussing QA strategy, automation architecture, or opportunities to build quality-first engineering cultures? Hit me up.</p>
     <div class="contact-links">
-     <a href="mailto:your.email@example.com" id="email-link" class="contact-link" target="_blank" rel="noopener noreferrer">📧 Email</a>
-     <a href="https://linkedin.com/in/yourprofile" id="linkedin-link" class="contact-link" target="_blank" rel="noopener noreferrer">💼 LinkedIn</a>
-     <a href="https://github.com/yourusername" id="github-link" class="contact-link" target="_blank" rel="noopener noreferrer">💻 GitHub</a>
+     <a href="mailto:buildghost.dev@gmail.com" id="email-link" class="contact-link" target="_blank" rel="noopener noreferrer">📧 Email</a>
+     <a href="https://www.linkedin.com/in/markrosenthalqa/" id="linkedin-link" class="contact-link" target="_blank" rel="noopener noreferrer">💼 LinkedIn</a>
+     <a href="https://github.com/RosenthalMark" id="github-link" class="contact-link" target="_blank" rel="noopener noreferrer">💻 GitHub</a>
     </div>
    </div>
   </section>
@@ -2538,9 +2669,9 @@
       name: "Mark Rosenthal",
       hero_headline: "I build automation that actually works",
       hero_subtext: "And I lead teams to stop treating QA like an afterthought. 9+ years turning flaky tests into reliable systems, manual testers into automation engineers, and building quality-first cultures through guild leadership.",
-      email: "your.email@example.com",
-      linkedin: "https://linkedin.com/in/yourprofile",
-      github: "https://github.com/yourusername"
+      email: "buildghost.dev@gmail.com",
+      linkedin: "https://www.linkedin.com/in/markrosenthalqa/",
+      github: "https://github.com/RosenthalMark"
     };
 
     // Demo data
@@ -2865,6 +2996,7 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
     const mobileSkillsImages = Array.from({ length: 9 }, (_, idx) => `assets/skillCards/${idx + 1}.png`);
     const mobileSkillsQuery = window.matchMedia('(max-width: 768px)');
     let mobileSlideWidth = 0;
+    let mobileStartScrollLeft = 0;
 
     function buildMobileSkillsTrack() {
       if (!mobileSkillsTrack) return;
@@ -2887,6 +3019,7 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
         const gap = parseFloat(getComputedStyle(mobileSkillsTrack).columnGap || getComputedStyle(mobileSkillsTrack).gap || '0');
         mobileSlideWidth = firstSlide.getBoundingClientRect().width + gap;
         mobileSkillsTrack.scrollLeft = mobileSlideWidth * mobileSkillsImages.length;
+        mobileStartScrollLeft = mobileSkillsTrack.scrollLeft;
       });
     }
 
@@ -2896,20 +3029,35 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
       const maxSpan = totalSpan * 3;
       if (mobileSkillsTrack.scrollLeft <= mobileSlideWidth * 0.5) {
         mobileSkillsTrack.scrollLeft += totalSpan;
+        mobileStartScrollLeft = mobileSkillsTrack.scrollLeft;
       } else if (mobileSkillsTrack.scrollLeft >= maxSpan - mobileSlideWidth * 0.5) {
         mobileSkillsTrack.scrollLeft -= totalSpan;
+        mobileStartScrollLeft = mobileSkillsTrack.scrollLeft;
       }
+    }
+
+    function handleMobileSkillsStart() {
+      if (!mobileSkillsTrack) return;
+      mobileStartScrollLeft = mobileSkillsTrack.scrollLeft;
     }
 
     function snapMobileSkills() {
       if (!mobileSkillsTrack || !mobileSlideWidth) return;
-      const target = Math.round(mobileSkillsTrack.scrollLeft / mobileSlideWidth) * mobileSlideWidth;
+      const delta = mobileSkillsTrack.scrollLeft - mobileStartScrollLeft;
+      const direction = delta === 0 ? 0 : delta > 0 ? 1 : -1;
+      const threshold = mobileSlideWidth * 0.18;
+      const target = Math.abs(delta) > threshold
+        ? mobileStartScrollLeft + direction * mobileSlideWidth
+        : mobileStartScrollLeft;
       mobileSkillsTrack.scrollTo({ left: target, behavior: 'smooth' });
+      mobileStartScrollLeft = target;
     }
 
     function disableMobileSkills() {
       if (!mobileSkillsTrack) return;
       mobileSkillsTrack.removeEventListener('scroll', handleMobileSkillsLoop);
+      mobileSkillsTrack.removeEventListener('touchstart', handleMobileSkillsStart);
+      mobileSkillsTrack.removeEventListener('mousedown', handleMobileSkillsStart);
       mobileSkillsTrack.removeEventListener('touchend', snapMobileSkills);
       mobileSkillsTrack.removeEventListener('mouseup', snapMobileSkills);
       mobileSkillsTrack.innerHTML = '';
@@ -2920,6 +3068,8 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
       if (!mobileSkillsTrack || !mobileSkillsQuery.matches) return;
       buildMobileSkillsTrack();
       mobileSkillsTrack.addEventListener('scroll', handleMobileSkillsLoop, { passive: true });
+      mobileSkillsTrack.addEventListener('touchstart', handleMobileSkillsStart, { passive: true });
+      mobileSkillsTrack.addEventListener('mousedown', handleMobileSkillsStart);
       mobileSkillsTrack.addEventListener('touchend', snapMobileSkills, { passive: true });
       mobileSkillsTrack.addEventListener('mouseup', snapMobileSkills);
     }
@@ -3254,6 +3404,92 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
         ])
       });
     }
+
+    // Desktop-only hero image reveal on scroll
+    const statsImage = document.querySelector('.hero-stats-visual');
+    const desktopStatsQuery = window.matchMedia('(min-width: 900px)');
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!statsImage) return;
+        if (entry.isIntersecting) {
+          statsImage.classList.add('is-visible');
+        } else {
+          statsImage.classList.remove('is-visible');
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '80px 0px -10% 0px' });
+
+    function toggleStatsObserver() {
+      if (!statsImage) return;
+      statsObserver.disconnect();
+      if (desktopStatsQuery.matches) {
+        statsObserver.observe(statsImage);
+      } else {
+        statsImage.classList.remove('is-visible');
+      }
+    }
+
+    toggleStatsObserver();
+    desktopStatsQuery.addEventListener('change', toggleStatsObserver);
+
+    // Section fade on scroll (desktop only, excludes hero/contact)
+    const fadeSections = Array.from(document.querySelectorAll('section')).filter(
+      (section) => section.id !== 'home' && section.id !== 'contact'
+    );
+    const desktopFadeQuery = window.matchMedia('(min-width: 769px)');
+    let fadeTicking = false;
+
+    function clamp01(value) {
+      return Math.max(0, Math.min(1, value));
+    }
+
+    function updateSectionOpacities() {
+      fadeTicking = false;
+      if (!desktopFadeQuery.matches) {
+        fadeSections.forEach((section) => {
+          section.style.opacity = '';
+          section.classList.remove('scroll-fade-target');
+        });
+        return;
+      }
+
+      const vh = window.innerHeight || 1;
+      fadeSections.forEach((section) => {
+        section.classList.add('scroll-fade-target');
+        const rect = section.getBoundingClientRect();
+        const sectionCenter = rect.top + rect.height / 2;
+        const centerNorm = sectionCenter / vh;
+        const dist = Math.abs(centerNorm - 0.5);
+        const maxDist = 0.9;
+
+        let raw = 1 - (dist / maxDist);
+        raw = clamp01(raw);
+
+        let eased = raw;
+        eased = eased * eased * eased * (eased * (eased * 6 - 15) + 10);
+
+        const gamma = 0.75;
+        eased = Math.pow(eased, gamma);
+
+        if (rect.bottom <= 0 || rect.top >= vh) {
+          eased = 0;
+        }
+
+        const finalOpacity = clamp01(eased);
+        section.style.opacity = finalOpacity.toFixed(3);
+      });
+    }
+
+    function requestFadeUpdate() {
+      if (fadeTicking) return;
+      fadeTicking = true;
+      requestAnimationFrame(updateSectionOpacities);
+    }
+
+    window.addEventListener('scroll', requestFadeUpdate, { passive: true });
+    window.addEventListener('resize', requestFadeUpdate);
+    desktopFadeQuery.addEventListener('change', requestFadeUpdate);
+    requestFadeUpdate();
   </script>
   <script>
     (function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a791e80c31a6a22',t:'MTc2NDY2MDYyOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();
