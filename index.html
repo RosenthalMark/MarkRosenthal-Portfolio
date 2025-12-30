@@ -2280,11 +2280,11 @@
       <div class="media-container">
       <video
        class="intro-gif"
-       autoplay
        muted
        loop
        playsinline
        preload="auto"
+       poster="/assets/introVideo/placeholder.jpg"
       >
        <source src="/assets/introVideo/introMP4.mp4" type="video/mp4">
 
@@ -2676,7 +2676,8 @@
   <div class="video-modal" id="videoModal">
    <div class="video-container">
     <button class="video-close" id="closeVideo">✕</button>
-    <div id="videoPlayerMount"></div>
+    <iframe class="video-player" id="modalVideo" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <video class="video-player" id="modalFallbackVideo" muted loop playsinline preload="auto" style="display:none;"></video>
    </div>
   </div>
   <div class="resume-overlay" id="resumeOverlay">
@@ -2723,9 +2724,9 @@
       },
       {
         category: 'cicd',
-        video: "https://player.mediadelivery.net/embed/564999/d93ffee6-078a-4032-933b-a231851deb24",
-        title: 'CI/CD Pipeline Deep Dive',
-        description: 'Architecting test automation pipelines that scale with parallelization and smart retry logic.',
+        video: "https://youtu.be/JhCrYXKIrTA",
+        title: 'CI/CD Quality Gates & Automation',
+        description: 'Architecting automated gatekeepers in the pipeline to ensure high-velocity deployments without breaking the build.',
         tags: ['Jenkins', 'Docker', 'Parallelization']
       },
       {
@@ -2894,38 +2895,8 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
         </div>
       `;
       card.addEventListener('click', () => {
-        const videoModal = document.getElementById('videoModal');
-        const mount = document.getElementById('videoPlayerMount');
-        const videoSrc = demo.video;
-        if (!videoModal || !mount || !videoSrc) return;
-
-        clearVideoPlayer();
-
-        if (videoSrc.trim().toLowerCase().endsWith('.mp4')) {
-          const videoEl = document.createElement('video');
-          videoEl.className = 'video-player';
-          videoEl.src = '/assets/videoPlaceholder/comingSoon.mp4';
-          videoEl.autoplay = true;
-          videoEl.muted = true;
-          videoEl.loop = true;
-          videoEl.playsInline = true;
-          videoEl.preload = 'auto';
-          videoEl.controls = false;
-          videoEl.controlsList = 'nodownload noplaybackrate noremoteplayback';
-          videoEl.disablePictureInPicture = true;
-          mount.appendChild(videoEl);
-          videoEl.play().catch(() => {});
-        } else {
-          const iframe = document.createElement('iframe');
-          iframe.className = 'video-player';
-          iframe.src = videoSrc.includes('?') ? videoSrc : `${videoSrc}?autoplay=1`;
-          iframe.frameBorder = '0';
-          iframe.allow = 'autoplay; fullscreen';
-          iframe.allowFullscreen = true;
-          mount.appendChild(iframe);
-        }
-
-        videoModal.classList.add('active');
+        const videoSrc = (demo.video || '').trim();
+        openVideo(videoSrc);
       });
       return card;
     }
@@ -3310,33 +3281,116 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
 
     // Video modal
     const videoModal = document.getElementById('videoModal');
-    const videoPlayerMount = document.getElementById('videoPlayerMount');
-    const closeVideo = document.getElementById('closeVideo');
+    const modalVideo = document.getElementById('modalVideo');
+    const modalFallbackVideo = document.getElementById('modalFallbackVideo');
+    const closeVideoButton = document.getElementById('closeVideo');
+    let youTubeMessageListenerAttached = false;
 
-    function clearVideoPlayer() {
-      if (!videoPlayerMount) return;
-      const videoEl = videoPlayerMount.querySelector('video');
-      const iframeEl = videoPlayerMount.querySelector('iframe');
-      if (videoEl) {
-        videoEl.pause();
-        videoEl.removeAttribute('src');
-        videoEl.load();
+    function handleYouTubeStateChange(event) {
+      if (!modalVideo || event.source !== modalVideo.contentWindow) return;
+      if (typeof event.data !== 'string') return;
+      let data;
+      try {
+        data = JSON.parse(event.data);
+      } catch (e) {
+        return;
       }
-      if (iframeEl) {
-        iframeEl.src = '';
+      if (data.event === 'onStateChange' && data.info === 0) {
+        // Stop suggestions showing after playback
+        modalVideo.src = '';
       }
-      videoPlayerMount.innerHTML = '';
     }
 
-    closeVideo.addEventListener('click', () => {
+    function registerYouTubeStateListener() {
+      if (youTubeMessageListenerAttached) return;
+      window.addEventListener('message', handleYouTubeStateChange);
+      youTubeMessageListenerAttached = true;
+    }
+
+    function sendYouTubeRegistration() {
+      if (!modalVideo || !modalVideo.contentWindow) return;
+      const listenMsg = { event: 'listening', id: 'modalVideo' };
+      const addListenerMsg = { event: 'command', func: 'addEventListener', args: ['onStateChange'] };
+      modalVideo.contentWindow.postMessage(JSON.stringify(listenMsg), '*');
+      modalVideo.contentWindow.postMessage(JSON.stringify(addListenerMsg), '*');
+    }
+
+    function requestYouTubeEvents() {
+      if (!modalVideo) return;
+      modalVideo.removeEventListener('load', sendYouTubeRegistration);
+      modalVideo.addEventListener('load', sendYouTubeRegistration);
+      sendYouTubeRegistration();
+    }
+
+    function openVideo(videoUrl) {
+      if (!videoModal || !modalVideo || !videoUrl) return;
+      const trimmedUrl = videoUrl.trim();
+      const isMp4 = trimmedUrl.toLowerCase().endsWith('.mp4');
+
+      if (isMp4) {
+        modalVideo.src = '';
+        modalVideo.style.display = 'none';
+        if (modalFallbackVideo) {
+          modalFallbackVideo.style.display = 'block';
+          modalFallbackVideo.src = '/assets/videoPlaceholder/comingSoon.mp4';
+          modalFallbackVideo.controls = false;
+          modalFallbackVideo.removeAttribute('controls');
+          modalFallbackVideo.muted = true;
+          modalFallbackVideo.loop = true;
+          modalFallbackVideo.playsInline = true;
+          modalFallbackVideo.autoplay = true;
+          modalFallbackVideo.play().catch(() => {});
+        }
+        videoModal.classList.add('active');
+        return;
+      }
+
+      let videoId = '';
+
+      if (trimmedUrl.includes('youtu.be/')) {
+        videoId = trimmedUrl.split('youtu.be/')[1].split(/[?&]/)[0];
+      } else {
+        const watchMatch = trimmedUrl.match(/[?&]v=([^&]+)/);
+        if (watchMatch && watchMatch[1]) {
+          videoId = watchMatch[1];
+        }
+      }
+
+      if (!videoId) return;
+
+      if (modalFallbackVideo) {
+        modalFallbackVideo.pause();
+        modalFallbackVideo.src = '';
+        modalFallbackVideo.style.display = 'none';
+      }
+
+      registerYouTubeStateListener();
+      const params = 'autoplay=1&rel=0&modestbranding=1&playsinline=1&controls=1&fs=1&enablejsapi=1';
+      modalVideo.src = `https://www.youtube.com/embed/${videoId}?${params}`;
+      modalVideo.style.display = 'block';
+      requestYouTubeEvents();
+      videoModal.classList.add('active');
+    }
+
+    function closeVideo() {
+      if (!videoModal || !modalVideo) return;
+      modalVideo.src = '';
+      modalVideo.style.display = 'block';
+      if (modalFallbackVideo) {
+        modalFallbackVideo.pause();
+        modalFallbackVideo.src = '';
+        modalFallbackVideo.style.display = 'none';
+      }
       videoModal.classList.remove('active');
-      clearVideoPlayer();
-    });
+    }
+
+    if (closeVideoButton) {
+      closeVideoButton.addEventListener('click', closeVideo);
+    }
 
     videoModal.addEventListener('click', (e) => {
       if (e.target === videoModal) {
-        videoModal.classList.remove('active');
-        clearVideoPlayer();
+        closeVideo();
       }
     });
 
@@ -3531,16 +3585,28 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
 
     if (introVideo) {
       introVideo.muted = true;
-      const showIntroVideo = () => {
+      introVideo.setAttribute('muted', '');
+      introVideo.playsInline = true;
+      introVideo.setAttribute('playsinline', '');
+      introVideo.loop = true;
+      introVideo.setAttribute('loop', '');
+      introVideo.autoplay = false;
+      introVideo.pause();
+      introVideo.currentTime = 0;
+
+      const startIntroVideo = () => {
         introVideo.classList.add('is-ready');
-        introVideo.play();
+        const playPromise = introVideo.play();
+        if (playPromise && typeof playPromise.then === 'function') {
+          playPromise.catch(() => {});
+        }
       };
 
       if (introVideo.readyState >= 3) {
-        showIntroVideo();
+        startIntroVideo();
       } else {
-        introVideo.addEventListener('loadeddata', showIntroVideo, { once: true });
-        introVideo.addEventListener('canplaythrough', showIntroVideo, { once: true });
+        introVideo.addEventListener('loadeddata', startIntroVideo, { once: true });
+        introVideo.addEventListener('canplaythrough', startIntroVideo, { once: true });
       }
     }
   </script>
