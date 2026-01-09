@@ -165,6 +165,7 @@
       backdrop-filter: blur(8px);
       background: radial-gradient(circle at top left, rgba(0, 255, 200, 0.12), #050707 55%);
       transition: all 0.3s ease;
+      position: relative;
     }
 
     .media-container:hover {
@@ -185,6 +186,47 @@
     .intro-gif.is-ready {
       opacity: 1;
       visibility: visible;
+    }
+
+    .intro-play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.75));
+      color: #00ffc8;
+      font-family: 'SF Mono', monospace;
+      font-size: 0.95rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .intro-play-overlay.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .intro-play-overlay span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 1.4rem;
+      border-radius: 999px;
+      border: 2px solid rgba(0, 255, 200, 0.85);
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+    }
+
+    .intro-play-overlay svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
     }
 
     .media-placeholder {
@@ -2283,13 +2325,23 @@
        muted
        loop
        playsinline
+       autoplay
        preload="auto"
-       poster="/assets/introVideo/placeholder.jpg"
+       poster="/assets/introVideo/introGif.gif"
+       webkit-playsinline
       >
        <source src="/assets/introVideo/introMP4.mp4" type="video/mp4">
 
-       <img src="/assets/introVideo/placeholder.jpg" alt="Intro placeholder">
+       <img src="/assets/introVideo/introGif.gif" alt="Intro placeholder">
       </video>
+      <button class="intro-play-overlay" type="button" aria-label="Play intro video">
+        <span>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M8 5v14l11-7z"></path>
+          </svg>
+          Tap to Play
+        </span>
+      </button>
       </div>
     </div>
 
@@ -3582,32 +3634,83 @@ Developing prompt engineering techniques for AI-assisted testing. Building DOM a
   <script>
     // Fade-in intro video when ready
     const introVideo = document.querySelector('.intro-gif');
+    const introOverlay = document.querySelector('.intro-play-overlay');
 
     if (introVideo) {
       introVideo.muted = true;
       introVideo.setAttribute('muted', '');
       introVideo.playsInline = true;
       introVideo.setAttribute('playsinline', '');
+      introVideo.setAttribute('webkit-playsinline', '');
       introVideo.loop = true;
       introVideo.setAttribute('loop', '');
-      introVideo.autoplay = false;
-      introVideo.pause();
-      introVideo.currentTime = 0;
+      introVideo.autoplay = true;
+      introVideo.setAttribute('autoplay', '');
 
-      const startIntroVideo = () => {
-        introVideo.classList.add('is-ready');
-        const playPromise = introVideo.play();
-        if (playPromise && typeof playPromise.then === 'function') {
-          playPromise.catch(() => {});
+      let autoplayBlocked = false;
+
+      const showOverlay = () => {
+        if (introOverlay) {
+          introOverlay.classList.add('is-visible');
         }
       };
 
-      if (introVideo.readyState >= 3) {
+      const hideOverlay = () => {
+        if (introOverlay) {
+          introOverlay.classList.remove('is-visible');
+        }
+      };
+
+      const markReady = () => {
+        introVideo.classList.add('is-ready');
+      };
+
+      const tryPlay = () => {
+        const playPromise = introVideo.play();
+        if (playPromise && typeof playPromise.then === 'function') {
+          playPromise.then(() => {
+            autoplayBlocked = false;
+            hideOverlay();
+          }).catch(() => {
+            autoplayBlocked = true;
+            showOverlay();
+          });
+        } else {
+          autoplayBlocked = true;
+          showOverlay();
+        }
+      };
+
+      const startIntroVideo = () => {
+        markReady();
+        tryPlay();
+      };
+
+      if (introVideo.readyState >= 2) {
         startIntroVideo();
       } else {
-        introVideo.addEventListener('loadeddata', startIntroVideo, { once: true });
-        introVideo.addEventListener('canplaythrough', startIntroVideo, { once: true });
+        introVideo.addEventListener('loadedmetadata', startIntroVideo, { once: true });
+        introVideo.addEventListener('canplay', startIntroVideo, { once: true });
       }
+
+      document.addEventListener('touchstart', tryPlay, { once: true, passive: true });
+      window.setTimeout(() => {
+        markReady();
+        tryPlay();
+      }, 1200);
+
+      if (introOverlay) {
+        introOverlay.addEventListener('click', () => {
+          tryPlay();
+        });
+      }
+      
+      introVideo.addEventListener('play', hideOverlay);
+      introVideo.addEventListener('pause', () => {
+        if (autoplayBlocked) {
+          showOverlay();
+        }
+      });
     }
   </script>
  </body>
